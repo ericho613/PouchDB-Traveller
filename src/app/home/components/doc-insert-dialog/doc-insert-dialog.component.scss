@@ -1,0 +1,26 @@
+#document-textarea{
+    height: 450px;
+    // width: 100%;
+}
+
+.error-message {
+    padding-left: 15px;
+    font-size: 15px;
+    font-style: italic;
+    color: red;
+    max-height: 100px;
+    overflow: auto;
+    margin: auto;
+}
+
+.success-message {
+    padding-left: 15px;
+    font-size: 15px;
+    font-style: italic;
+    color: green;
+}
+
+.textarea-error-border{
+
+    border: solid red 4px;
+}

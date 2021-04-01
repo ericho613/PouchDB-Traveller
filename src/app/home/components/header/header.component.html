@@ -1,0 +1,33 @@
+<mat-toolbar class="banner" *ngIf="showUpdateBanner">
+  <div id="banner-message">
+    A new update has been downloaded. Restart application to apply changes?
+  </div>
+
+  <div fxFlex fxLayout fxLayoutAlign="flex-end">
+
+    <button type="button" class="banner-button" mat-button color="primary" (click)="restart()" aria-label="Restart" fxLayoutAlign="center center">Restart</button>
+
+    <button type="button" class="banner-button" mat-button (click)="showUpdateBanner=false" aria-label="Later" fxLayoutAlign="center center">Later</button>
+
+    <button type="button" class="banner-button" mat-icon-button (click)="showUpdateBanner=false" aria-label="Cancel" fxLayoutAlign="center center">
+    <mat-icon>close</mat-icon>
+    </button>
+
+  </div>
+
+</mat-toolbar>
+
+<!-- <mat-toolbar color="primary">
+    <div>
+      <button type="button" mat-icon-button (click)="onToggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="page === 'db-connection'">
+      Connect to a Database
+    </div>
+    <div *ngIf="page === 'db-detail'">
+      Database name
+    </div>
+  </mat-toolbar> -->
+  

@@ -1,0 +1,74 @@
+//class is not present in html template but will be present
+// in compiled Angular code; this class adjust the width of
+// the name column
+.mat-column-name {
+    flex: 0 0 25%;
+  }
+  
+.mat-column-fields {
+  flex: 0 0 20%;
+}
+
+.mat-column-designDocument {
+  flex: 0 0 30%;
+}
+
+.mat-column-type {
+  flex: 0 0 15%;
+}
+
+// .mat-column-drop {
+//   flex: 0 0 10%;
+// }
+
+.index-name{
+  font-weight: bold;
+}
+
+.result-btn {
+  background-color: rgb(245, 245, 245);
+  border-radius: 5px;
+  border: solid rgb(215, 215, 215) 1px;
+  margin: 0 1.5px;
+  width: 30px;
+  height: 30px;
+}
+
+.result-btn-hover:hover {
+  box-shadow: 0px 0px 5px grey;
+}
+
+.result-btn-icon {
+    font-size: 20px;
+}
+
+.overflow-limit {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // width: 25%;
+  // padding: 12px 15px 12px 5px;
+  // font-weight: bold;
+}
+
+.mat-chip-list{
+  padding: 10px 0px 10px 0px;
+}
+
+// table {
+//   width: 100%;
+// }
+
+.table-container {
+  // max-height: 504px;
+  overflow: auto;
+}
+
+.paginator-container{
+  border-bottom: groove;
+}
+
+mat-paginator {
+  background-color: rgb(250, 250, 250);
+}
+

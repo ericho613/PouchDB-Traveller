@@ -1,0 +1,82 @@
+<div class="paginator-container">
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+  </mat-paginator>
+
+</div>
+
+
+<div class="table-container">
+
+  <mat-table matSort matSortActive="name" matSortDisableClear matSortDirection="asc" [dataSource]="tableDataSource">
+
+    <ng-container matColumnDef="name" disableClear>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Name
+      </mat-header-cell>
+  
+      <mat-cell *matCellDef="let element; let i = index">
+        
+        <span class="overflow-limit index-name" [matTooltip]="element.name">{{element.name}}</span>
+
+      </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="fields">
+      <mat-header-cell *matHeaderCellDef>
+        Field(s)
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        
+        <mat-chip-list aria-label="Fields list">
+          <mat-chip *ngFor="let field of element.fields;">{{field}}</mat-chip>
+        </mat-chip-list>
+        
+
+        <!-- <div class="overflow" *ngFor="let field of element.fields; let i = index">
+          
+          {{field}}<span *ngIf="i !== (element.fields.length - 1)">,&nbsp;<br></span>
+          
+        </div> -->
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="designDocument">
+      <mat-header-cell *matHeaderCellDef>
+        Design Document
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+
+        <span class="overflow-limit" [matTooltip]="element.ddoc">{{element.ddoc}}</span>
+
+      </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+      <mat-cell class="node-type" *matCellDef="let element">
+
+        <mat-chip-list aria-label="Element type">
+          <mat-chip color="primary" selected>{{element.type}}</mat-chip>
+        </mat-chip-list>
+        
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="drop">
+      <mat-header-cell *matHeaderCellDef>Drop</mat-header-cell>
+      <mat-cell class="node-type" *matCellDef="let element; let i = index">
+
+        <button type="button" class="result-btn" [ngClass]="[element.type !=='special'? 'result-btn-hover': '']" mat-icon-button matTooltip="Drop" aria-label="Delete" fxLayoutAlign="center center" (click)="openDropIndexDialog(element.name, i)" [disabled]="element.type === 'special'">
+          <mat-icon class="result-btn-icon">delete</mat-icon>
+        </button>
+        
+      </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+  
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+</div>

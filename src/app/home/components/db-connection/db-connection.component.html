@@ -1,0 +1,100 @@
+
+<div id="container">
+
+  <mat-card class="db-connection-card">
+    <mat-card-header>
+      <div mat-card-avatar>
+
+        <mat-icon>open_in_browser</mat-icon>
+      </div>
+      <mat-card-title>
+        {{ title }}
+      </mat-card-title>
+
+      <div fxFlex fxLayoutAlign="flex-end">
+        <div>
+
+          <button type="button" class="oval-btn" mat-button (click)="openFavoriteDialog()" #favoriteBtn>
+            <mat-icon *ngIf="!loadedDbConnection || loadedDbConnection.type === 'recent'">star_border</mat-icon>
+            <mat-icon *ngIf="loadedDbConnection && loadedDbConnection.type === 'favorite'">star</mat-icon>
+            <span class="btn-label">Favorite</span>
+          </button>
+
+        </div>
+        
+      </div>
+
+      <mat-card-subtitle *ngIf="lastDateTimeAccessed">Last accessed: {{lastDateTimeAccessed}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+      <section>
+        <!-- <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" #formcreateOrOpenDbPath="ngForm" (ngSubmit)="onSubmit(formcreateOrOpenDbPath)"> -->
+
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" [formGroup]="dbConnectionForm" (ngSubmit)="onSubmit()">
+
+          <div class="input-container" fxLayout="row">
+
+            <!-- <mat-form-field>
+              <mat-label>Database folder path</mat-label>
+              <input type="text" matInput placeholder="e.g. C:/database-folder-name" name="createOrOpenDbPath" [(ngModel)]="createOrOpenDbPathValue" required #createOrOpenDbPath="ngModel" [disabled]="!pathEditMode">
+              <button type="button" mat-button *ngIf="createOrOpenDbPathValue && pathEditMode" matSuffix mat-icon-button aria-label="Clear" (click)="createOrOpenDbPathValue=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="createOrOpenDbPath.hasError('required')">Please enter a folder path.</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field>
+              <mat-label>Database folder path</mat-label>
+              <input type="text" matInput placeholder="e.g. C:/database-folder-name" formControlName="createOrOpenDbPath">
+              <button mat-icon-button type="button" *ngIf="createOrOpenDbPathValue && pathEditMode" matSuffix aria-label="Clear" (click)="clearCreateOrOpenDbPathValue()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="dbConnectionForm.get('createOrOpenDbPath').errors?.required || dbConnectionForm.get('createOrOpenDbPath').errors?.invalidPath">Please enter a valid folder path.</mat-error>
+            </mat-form-field>
+
+            <button type="button" fxLayoutAlign="center center" class="browse-btn" mat-raised-button aria-label="Browse" [disabled]="!pathEditMode" (click)="openFolderBrowse()">
+              <mat-icon>folder_open</mat-icon>
+              BROWSE
+            </button>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="10px">
+
+            <button *ngIf="loadedDbConnection && !pathEditMode && loadedDbConnection.type === 'favorite'" type="button" mat-stroked-button (click)="activatePathEditMode()">Edit</button>
+
+            <button *ngIf="pathEditMode && loadedDbConnection && loadedDbConnection.type === 'favorite'" type="button" mat-stroked-button (click)="saveDbConnection()">Save</button>
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="dbConnectionForm.get('createOrOpenDbPath').errors?.required || dbConnectionForm.get('createOrOpenDbPath').errors?.invalidPath">{{loadedDbConnection? 'Open' : 'Create/Open'}}</button>
+            
+          </div>
+
+          
+        </form>
+      </section>
+      
+      
+
+    </mat-card-content>
+  </mat-card>
+
+  <div class="error-message-container" *ngIf="errorMessage">
+
+    <div class="error-message">
+        {{errorMessage}}
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+<!-- <mat-radio-group aria-labelledby="db-connection-radio-group" fxLayout="column" fxLayoutAlign="center center" [(ngModel)]="databaseConnectionOption" fxLayoutGap="10px">
+  <mat-radio-button value="existingDb">Connect to an existing database.</mat-radio-button>
+  <mat-radio-button value="createDb">Create a new database.</mat-radio-button>
+</mat-radio-group> -->
+
+

@@ -1,0 +1,167 @@
+<div id="details-header">
+  
+  <div id="db-name" [matTooltip]="databaseName">
+
+    {{databaseName}}
+
+  </div>
+
+  <div id="favorite-btn">
+
+      <button type="button" class="oval-btn" mat-button (click)="openFavoriteDialog()" #favoriteBtn>
+        <mat-icon *ngIf="!loadedDbConnection || loadedDbConnection.type === 'recent'">star_border</mat-icon>
+        <mat-icon *ngIf="loadedDbConnection && loadedDbConnection.type === 'favorite'">star</mat-icon>
+        <span class="btn-label">Favorite</span>
+      </button>
+    
+  </div>
+  
+  <div id="db-document-count">
+
+    Documents: {{documentCount}}
+
+  </div>
+
+  <div id="db-disk-size">
+
+    Disk Size: {{diskSize}}
+
+  </div>
+
+  <div id="db-indexes">
+
+    Indexes: {{indexCount}}
+
+  </div>
+
+</div>
+  
+<mat-tab-group animationDuration="0ms">
+
+  <mat-tab label="Documents" fxLayout="column">
+
+    <div id="filter-section">
+
+      <form fxLayout="row" fxLayoutAlign="flex-start flex-start"[formGroup]="dbDetailForm" (ngSubmit)="onSubmit()">
+
+        <div fxFlex="78%" fxLayout="column">
+
+          <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input type="text" matInput formControlName="filter" placeholder='e.g. { "key1": { "$eq": "value1" }, "key2": { "$gt": "value2" }, "key3": { "$lte": "value3" } }'>
+            <button type="button" class="info-btn" matPrefix mat-icon-button aria-label="Info" (click)="openExternalLink('https://pouchdb.com/api.html#query_index')">
+              <mat-icon>info</mat-icon>
+            </button>
+            <button type="button" mat-icon-button *ngIf="filterValue" matSuffix aria-label="Clear" (click)="clearFilterValue()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="dbDetailForm.get('filter').errors?.invalidJSONValue">Please enter a valid filter value.</mat-error>
+          </mat-form-field>
+
+          <div flexLayout="row" fxLayoutGap="15px">
+
+            <mat-form-field fxFlex="50%" *ngIf="optionsActivated">
+              <mat-label>Sort</mat-label>
+              <input type="text" matInput formControlName="sort" placeholder='e.g. [ { "key1": "asc" }, "key2" ]'>
+              <button type="button" class="info-btn" matPrefix mat-icon-button aria-label="Info" (click)="openExternalLink('https://pouchdb.com/api.html#query_index')">
+                <mat-icon>info</mat-icon>
+              </button>
+              <button type="button" *ngIf="sortValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearSortValue()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="dbDetailForm.get('sort').errors?.invalidJSONValue">Please enter a valid sort value.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="25%" *ngIf="optionsActivated">
+              <mat-label>Limit</mat-label>
+              <input type="text" matInput formControlName="limit" placeholder="e.g. 10">
+              <button type="button" class="info-btn" matPrefix mat-icon-button aria-label="Info" (click)="openExternalLink('https://pouchdb.com/api.html#query_index')">
+                <mat-icon>info</mat-icon>
+              </button>
+              <button type="button" *ngIf="limitValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearLimitValue()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="dbDetailForm.get('limit').errors?.invalidNumberValue">Please enter a valid limit value.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="25%" *ngIf="optionsActivated">
+              <mat-label>Skip</mat-label>
+              <input type="text" matInput formControlName="skip" placeholder="e.g. 5">
+              <button type="button" class="info-btn" matPrefix mat-icon-button aria-label="Info" (click)="openExternalLink('https://pouchdb.com/api.html#query_index')">
+                <mat-icon>info</mat-icon>
+              </button>
+              <button type="button" *ngIf="skipValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearSkipValue()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="dbDetailForm.get('skip').errors?.invalidNumberValue">Please enter a valid skip value.</mat-error>
+            </mat-form-field>
+
+          </div>
+
+        </div>
+
+        <div id="filter-btn-section" fxFlex fxLayoutAlign="flex-end" fxLayoutGap="5px">
+
+          <button type="button" mat-stroked-button matSuffix aria-label="Filter Options" (click)="optionsActivated=!optionsActivated">
+            <mat-icon>{{ optionsActivated ? "arrow_drop_down" : "arrow_right" }}</mat-icon>
+            Options
+          </button>
+
+          <button type="submit" mat-raised-button color="primary" [disabled]="dbDetailForm.get('filter').errors || dbDetailForm.get('limit').errors || dbDetailForm.get('sort').errors || dbDetailForm.get('skip').errors || databaseResultsLoading">Find</button>
+
+          <button type="button" mat-raised-button color="basic" (click)="resetSearch()" [disabled]="databaseResultsLoading">Reset</button>
+
+        </div>
+        
+      </form>
+
+    </div>
+
+    <div id="pagination-section" fxLayout="row" fxLayoutAlign="flex-end center">
+
+      <!-- <div class="search-filter-results-count" *ngIf="searchFilter" fxFlex fxLayoutAlign="flex-start center">Displaying {{dbResults.length}} results... </div> -->
+
+      <mat-paginator [ngClass]="[searchFilter? '' : 'hide-display']" [pageSize]="filterSearchPaginatorPageSize" [pageSizeOptions]="filterSearchPaginatorPageSizeOptions" [length]="filterSearchPaginatorLength" showFirstLastButtons (page)="fetchFilterSearchPaginationResults($event)" #filterSearchPaginator>
+      </mat-paginator>
+
+      <mat-paginator [ngClass]="[searchFilter? 'hide-display': '']" [pageSize]="searchPaginatorPageSize" [pageSizeOptions]="searchPaginatorPageSizeOptions" [length]="searchPaginatorLength" showFirstLastButtons (page)="fetchSearchPaginationResults($event)" #searchPaginator>
+      </mat-paginator>
+
+      <button fxLayoutAlign="center center" type="button" mat-raised-button color="basic" (click)="refreshSearch()" [disabled]="databaseResultsLoading">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+
+    </div>
+
+    <div *ngIf="searchFilter" id="results-section" fxLayout="column" fxLayoutGap="5px">
+
+      <app-result-card *ngFor="let filterSearchResult of filterSearchResults; let i = index" [result]="filterSearchResult"></app-result-card>
+      
+    </div>
+
+    <div *ngIf="!searchFilter" id="results-section" fxLayout="column" fxLayoutGap="5px">
+
+      <app-result-card *ngFor="let dbResult of dbResults; let i = index" [result]="dbResult"></app-result-card>
+      
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Indexes" fxLayout="column">
+
+    <div id="index-create-section">
+
+      <button type="button" mat-raised-button color="primary" (click)="openCreateIndexDialog()">Create Index</button>
+
+    </div>
+
+    <div id="index-table-section" class="index-table-section-height">
+
+      <app-index-table></app-index-table>
+
+    </div>
+    
+
+  </mat-tab>
+
+</mat-tab-group>

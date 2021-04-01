@@ -1,0 +1,25 @@
+
+
+<div *ngIf="loadingDb || databaseResultsLoading || databaseIndexesLoading || cryptographySettingsLoading" class="progress-bar-container">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div *ngIf="loadingDb || databaseResultsLoading || databaseIndexesLoading || cryptographySettingsLoading" id="overlay"></div>
+
+<mat-sidenav-container>
+
+  <mat-sidenav #sidenav mode="side" role="navigation" opened>
+
+    <app-sidenav-list></app-sidenav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <app-header></app-header>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

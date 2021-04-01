@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Drop Index</h1>
+
+<mat-dialog-content>
+
+    <p>Do you want to drop index <strong [matTooltip]="data.indexName.length > 50? data.indexName : ''">{{data.indexName | truncate:[50]}}</strong>?</p>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row">
+
+    <div *ngIf="errorMessage && errorMessage !== ''" class="error-message" fxFlex="55%">{{errorMessage}}</div>
+    <div *ngIf="indexDeleteSuccessful" class="success-message" fxLayoutAlign="flex-start center">Index deletion successful.</div>
+  
+    <div *ngIf="!indexDeleteSuccessful" fxFlex fxLayoutAlign="flex-end center">
+      <button type="button" mat-button [mat-dialog-close]="false" [disabled]="persistLoading">No</button>
+      <button type="button" mat-flat-button (click)="dropIndex()" color="primary" [disabled]="persistLoading">Yes</button>
+    </div>
+    <div *ngIf="indexDeleteSuccessful" fxFlex fxLayoutAlign="flex-end center">
+        <button type="button" mat-flat-button [mat-dialog-close]="data" color="primary">Close</button>
+    </div>
+
+</mat-dialog-actions>

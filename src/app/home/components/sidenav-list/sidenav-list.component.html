@@ -1,0 +1,204 @@
+
+<mat-nav-list class="nav-list-mod" *ngIf="page === 'db-connection'">
+
+  <!-- <mat-list-item>
+
+      <mat-icon>build</mat-icon>
+      <span class="nav-caption">New Database</span>
+
+  </mat-list-item> -->
+
+  <mat-list-item (click)="setDefaultDbConnectionSettings()">
+
+      <mat-icon>open_in_browser</mat-icon>
+      <span class="nav-caption">Create/Open Database</span>
+
+  </mat-list-item>
+
+  <mat-accordion multi>
+
+    <mat-expansion-panel [class.mat-elevation-z0]="true" expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title fxLayoutAlign="flex-start center">
+          <mat-icon>star</mat-icon>
+          <span class="nav-caption">Favorites</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div *ngIf="favoritesLoading" fxLayoutAlign="center center">
+        <mat-spinner></mat-spinner>
+      </div>
+      
+      <!-- <div *ngIf="favoritesErrorMessage !== ''" fxLayoutAlign="center center" class="error-message">
+        Could not fetch favorites...
+      </div> -->
+  
+      <mat-nav-list dense *ngIf="!favoritesLoading">
+        <mat-list-item *ngFor="let favorite of favorites; let i = index" (mouseenter)="hoveredFavoriteItem = i" (mouseleave)="hoveredFavoriteItem = ''">
+
+          <div (click)="setDatabaseConnection(favorite)" class="db-connection-item-container">
+            <div mat-line [matTooltip]="favorite.lastDateTimeAccessed && favorite.lastDateTimeAccessed !== ''? favorite.lastDateTimeAccessed : 'Never'">
+              <strong>{{favorite.lastDateTimeAccessed && favorite.lastDateTimeAccessed !== ''? favorite.lastDateTimeAccessed : 'Never'}}</strong>
+            </div>
+            <div mat-line [matTooltip]="favorite.dbAliasName && favorite.dbAliasName !=='' ? favorite.dbAliasName : favorite.connectionPath && favorite.connectionPath !=='' ? favorite.connectionPath : 'Unidentified Database'">
+              <em>{{favorite.dbAliasName && favorite.dbAliasName !=='' ? favorite.dbAliasName : favorite.connectionPath && favorite.connectionPath !=='' ? favorite.connectionPath : 'Unidentified Database'}}</em>
+            </div>
+          </div>
+          
+          <div [ngClass]="hoveredFavoriteItem !== i? 'hidden': ''" class="db-connection-item-button-container">
+            <button type="button" mat-icon-button [matMenuTriggerFor]="favoritesMenu" [attr.aria-label]="favorite.dbAliasName && favorite.dbAliasName !=='' ? favorite.dbAliasName : favorite.connectionPath && favorite.connectionPath !=='' ? favorite.connectionPath : 'Unidentified Database'" (click)="selectFavoriteOrRecentDbConnection(favorite)">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </div>
+
+          
+          <mat-divider></mat-divider>
+
+        </mat-list-item>
+      </mat-nav-list>
+  
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [class.mat-elevation-z0]="true" expanded [disabled]="clickedClearAllButton" (click)="clickedClearAllButton=false">
+      <mat-expansion-panel-header>
+        <mat-panel-title fxLayoutAlign="flex-start center" (mouseenter)="displayClearAll = true" (mouseleave)="displayClearAll = false">
+          <div fxFlex fxLayoutAlign="flex-start center">
+            <mat-icon>history</mat-icon>
+            <span class="nav-caption">Recents</span>
+          </div>
+
+          <div *ngIf="displayClearAll && recents.length > 0" class="clear-all-button" (click)="clearAllRecents()">
+            Clear all
+          </div>
+          
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div *ngIf="recentsLoading" fxLayoutAlign="center center">
+        <mat-spinner></mat-spinner>
+      </div>
+      
+      <!-- <div *ngIf="recentsErrorMessage !== ''" fxLayoutAlign="center center" class="error-message">
+        Could not fetch recents...
+      </div> -->
+  
+      <mat-nav-list dense *ngIf="!recentsLoading">
+
+        <mat-list-item *ngFor="let recent of recents; let i = index" (mouseenter)="hoveredRecentItem = i" (mouseleave)="hoveredRecentItem = ''">
+
+          <div (click)="setDatabaseConnection(recent)" class="db-connection-item-container">
+
+            <div mat-line [matTooltip]="recent.lastDateTimeAccessed && recent.lastDateTimeAccessed !== ''? recent.lastDateTimeAccessed : 'Never'">
+              <strong>{{recent.lastDateTimeAccessed && recent.lastDateTimeAccessed !== ''? recent.lastDateTimeAccessed : 'Never'}}</strong>
+            </div>
+            <div mat-line [matTooltip]="recent.dbAliasName && recent.dbAliasName !=='' ? recent.dbAliasName : recent.connectionPath">
+              <em>{{recent.dbAliasName && recent.dbAliasName !=='' ? recent.dbAliasName : recent.connectionPath}}</em>
+            </div>
+
+          </div>
+
+          <div class="db-connection-item-button-container">
+
+            <button [ngClass]="hoveredRecentItem !== i? 'hidden': ''" type="button" mat-icon-button [matMenuTriggerFor]="recentsMenu" [attr.aria-label]="recent.dbAliasName && recent.dbAliasName !=='' ? recent.dbAliasName : recent.connectionPath" (click)="selectFavoriteOrRecentDbConnection(recent)">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+
+          </div>
+
+          <mat-divider></mat-divider>
+
+        </mat-list-item>
+
+      </mat-nav-list>
+
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</mat-nav-list>
+
+<mat-menu #favoritesMenu="matMenu">
+  <!-- <button mat-menu-item class="menu-item">Copy</button> -->
+  <button mat-menu-item class="menu-item" (click)="removeFromFavorites()">Remove</button>
+</mat-menu>
+
+<mat-menu #recentsMenu="matMenu">
+  <button mat-menu-item class="menu-item" (click)="addRecentToFavorites()">Add to Favorites</button>
+  <button mat-menu-item class="menu-item" (click)="removeFromRecents()">Remove</button>
+</mat-menu>
+
+<mat-nav-list class="nav-list-mod" *ngIf="page === 'db-detail'">
+
+  <mat-list-item (click)="openInsertDocDialog()">
+
+    <mat-icon>add</mat-icon>
+    <span class="nav-caption">Insert Document(s)</span>
+
+  </mat-list-item>
+
+  <mat-list-item (click)="openImportToDatabase()">
+
+    <mat-icon>insert_drive_file</mat-icon>
+    <span class="nav-caption">Import to Database</span>
+
+  </mat-list-item>
+
+  <mat-list-item (click)="openExportFromDatabase()">
+    
+    <mat-icon>archive</mat-icon>
+    <span class="nav-caption">Export from Database</span>
+
+  </mat-list-item>
+
+  <mat-list-item (click)="closeDatabase()">
+
+    <mat-icon>close</mat-icon>
+    <span class="nav-caption">Close Database</span>
+
+  </mat-list-item>
+
+  <mat-divider></mat-divider>
+
+  <div class="sidenav-option-title">
+    Cryptography Settings
+  </div>
+
+  <div>
+
+    <form class="sidenav-form" fxLayout="column" #formCryptoSettings="ngForm" (ngSubmit)="onSubmit(formCryptoSettings)">
+
+      <mat-form-field appearance="fill">
+        <mat-label>Specification</mat-label>
+        <mat-select [(value)]="cryptoSpec">
+          <mat-option></mat-option>
+          <mat-option [value]="spec" *ngFor="let spec of cryptoSpecification">{{ spec }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox name="applyEncryption" [(ngModel)]="applyEncryption" color="primary">
+        <span class="nav-caption">Apply Encryption</span>
+      </mat-checkbox>
+
+      <mat-checkbox name="applyDecryption" [(ngModel)]="applyDecryption" color="primary">
+        <span class="nav-caption">Apply Decryption</span>
+      </mat-checkbox>
+
+      <mat-form-field id="cryptoSecretKey" *ngIf="applyEncryption || applyDecryption">
+        <mat-label>Secret Key</mat-label>
+        <input [type]="hide ? 'password' : 'text'" matInput name="cryptoSecretKey" [(ngModel)]="cryptoSecretKeyValue" required #cryptoSecretKey="ngModel">
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <button type="button" *ngIf="cryptoSecretKeyValue" matSuffix mat-icon-button aria-label="Clear" (click)="cryptoSecretKeyValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="formCryptoSettings.controls['cryptoSecretKey']?.errors?.required">Please enter secret key.</mat-error>
+      </mat-form-field>
+
+      <button id="sidename-submit-btn" type="submit" mat-raised-button color="primary">Apply Settings</button>
+    </form>
+
+  </div>
+
+  
+
+</mat-nav-list>

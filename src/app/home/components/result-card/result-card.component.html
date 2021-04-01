@@ -1,0 +1,339 @@
+<mat-card (mouseover)="showResultBtns=true" (mouseleave)="showResultBtns=false" [ngClass]="[documentDeletionMode?'document-deletion-mode':'']">
+    <mat-card-content *ngIf="editMode === false">
+      
+      <div *ngIf="showResultBtns && !documentDeletionMode" id="result-btns-section" fxLayout="row" fxLayoutAlign="flex-end">
+
+        <button type="button" *ngIf="showResultBtns" class="result-btn" mat-icon-button aria-label="Edit" matTooltip="Edit" (click)="activateEditMode()" fxLayoutAlign="center center">
+          <mat-icon class="result-btn-icon">edit</mat-icon>
+        </button>
+
+        <button type="button" *ngIf="showResultBtns" class="result-btn" mat-icon-button matTooltip="Copy" aria-label="Copy" fxLayoutAlign="center center" [cdkCopyToClipboard]="stringifyResult()">
+          <mat-icon class="result-btn-icon">content_copy</mat-icon>
+        </button>
+
+        <button type="button" *ngIf="showResultBtns" class="result-btn" mat-icon-button matTooltip="Delete" aria-label="Delete" fxLayoutAlign="center center" (click)="activateDocumentDeletion()">
+          <mat-icon class="result-btn-icon">delete</mat-icon>
+        </button>
+
+      </div>   
+
+      <div id="toggle-expansion-container">
+
+        <button *ngIf="showResultBtns && !documentDeletionMode" class="toggle-expansion-btn" type="button" mat-icon-button [matTooltip]="toggleExpansionBtnTooltip" (click)="toggleAllTreeNodesExpansion()">
+          <mat-icon class="toggle-expansion-btn-icon">
+            {{allTreeNodesExpanded ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+
+      </div>
+      
+      <cdk-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <cdk-nested-tree-node *cdkTreeNodeDef="let node" class="tree-node" fxLayoutAlign="flex-start center">
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button type="button" mat-icon-button disabled></button>
+          <span class="node-key">{{node.key}}</span>
+          
+          <ng-container [ngSwitch]="node.type">
+
+            <span *ngSwitchCase="null" class="node-value hide-overflow" fxFlex fxLayout="row">
+              &nbsp;:&nbsp;
+              <span [id]="node.location" class="node-value hide-overflow" (dblclick)="activateEditModeAndFocusInput($event)">
+                null
+              </span>
+            </span>
+
+            <span *ngSwitchCase="'string'" class="node-value hide-overflow" fxFlex fxLayout="row">
+              
+              &nbsp;:&nbsp;"
+              <span [id]="node.location" class="node-value hide-overflow" (dblclick)="activateEditModeAndFocusInput($event)">
+                {{node.value | truncate:[50]}}
+              </span>
+              "
+
+            </span>
+
+            <span *ngSwitchCase="'number'" class="node-value hide-overflow" fxFlex fxLayout="row">
+              
+              &nbsp;:&nbsp;
+              <span [id]="node.location" class="node-value hide-overflow" (dblclick)="activateEditModeAndFocusInput($event)">
+                {{node.value | truncate:[50]}}
+              </span>
+            </span>
+
+            <span *ngSwitchCase="'boolean'" class="node-value hide-overflow" fxFlex fxLayout="row">
+                
+              &nbsp;:&nbsp;
+              <span [id]="node.location" class="node-value hide-overflow" (dblclick)="activateEditModeAndFocusInput($event)">
+                {{node.value | truncate:[50]}}
+              </span>
+            </span>
+
+          </ng-container>
+          
+        </cdk-nested-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild" class="tree-node">
+          <button type="button" mat-icon-button [attr.aria-label]="'Toggle ' + node.name" (click)="toggleRecursiveTreeNodeExpansion(node)">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{node.isExpanded ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <span class="node-key">{{node.key}}</span>
+          <span class="node-type">&nbsp;:&nbsp;{{node.type | titlecase}}</span>
+          <div [class.tree-invisible]="!treeControl.isExpanded(node)">
+            <ng-container cdkTreeNodeOutlet></ng-container>
+          </div>
+        </cdk-nested-tree-node>
+      </cdk-tree>
+
+    </mat-card-content>
+
+    <form *ngIf="editMode === true" [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+
+      <mat-card-content *ngIf="editMode === true">
+
+        <mat-table [dataSource]="tableDataSource">
+
+          <ng-container matColumnDef="index">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        
+            <mat-cell *matCellDef="let element; let i = index">
+              
+
+              <button type="button" class="delete-btn" mat-icon-button aria-label="Add" fxLayoutAlign="center center" [disabled]="element.parentDelete" [ngClass]="((element.key === '_id') || (element.key === '_rev')) && element.level === 1 && !element.modified? 'hide-button' : ''">
+                <mat-icon *ngIf="!element.modified && hoveredRow.location === element.location && !element.parentDelete && !element.isNewRow" class="delete-btn-icon" (click)="markElementForDeletion(element)" matTooltip="Delete">highlight_off</mat-icon>
+
+                <mat-icon *ngIf="element.isNewRow && hoveredRow.location === element.location" class="delete-btn-icon" (click)="removeNewRow(element)" matTooltip="Delete">highlight_off</mat-icon>
+
+                <mat-icon *ngIf="element.modified && hoveredRow.location === element.location && !element.parentDelete && !element.isNewRow" class="undo-btn-icon" (click)="revertInputChanges(element)" matTooltip="Undo">replay</mat-icon>
+              </button>
+
+              <button type="button" class="add-btn" [ngClass] = "[hoveredRow.location === element.location? 'add-btn-hover' : 'add-btn-unhover', element.delete ? 'add-btn-delete' : 'add-btn', element.modified && !element.delete ? 'add-btn-modified' : 'add-btn']" mat-icon-button aria-label="Add" fxLayoutAlign="center center" [disabled]="element.parentDelete" [matMenuTriggerFor]="addRowElementMenu" (click)="selectRow()">
+
+                <span *ngIf="(hoveredRow.location !== element.location && !element.parentDelete) || element.parentDelete">{{ i+1 }}</span>
+
+                <mat-icon *ngIf="(hoveredRow.location === element.location && !element.parentDelete)" class="add-btn-icon">add</mat-icon>
+                
+              </button>
+
+            </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="field">
+            <mat-header-cell *matHeaderCellDef>
+              <button type="button" mat-icon-button disabled></button>
+              Field
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+  
+              <button type="button" *ngIf="!element.children" mat-icon-button disabled></button>
+  
+              <ng-container *ngIf="element.level > 1">
+  
+                <button type="button" *ngFor="let level of [].constructor(element.level - 1)" mat-icon-button disabled></button>
+  
+              </ng-container>
+  
+              <button type="button" *ngIf="element.children" mat-icon-button [attr.aria-label]="'Toggle ' + element.key" (click)="toggleRecursiveTableElementExpansion(element)">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{ element.isExpanded? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+              </button>
+              <!-- <span class="node-key">{{element.key}}</span> -->
+
+              <span>
+
+                <input class="custom-input" [ngClass]="checkElementKeyIsNotUnique(element) || checkKeyInputHasError('[key]' + element.location)? 'error-input' : 'node-key'" type="text" [name]="'[key]' + element.location" [formControlName]="'[key]' + element.location" [appResizeInput]="element.key + ''" (input)="modifyElementKey(element, formInput.value)" #formInput [matTooltip]="checkKeyInputHasError('[key]' + element.location)? 'Key name forbidden.' : checkElementKeyIsNotUnique(element)? 'Duplicate key.  Earlier fields with the key name will be overwritten.' : ''"> 
+
+              </span>
+
+              <ng-container [ngSwitch]="element.type">
+  
+                <span *ngSwitchCase="'string'" class="node-value hide-overflow" fxFlex fxLayout="row">
+                  
+                  &nbsp;:&nbsp;"
+                  <span class="hide-overflow">
+
+                    <input class="custom-input" [ngClass]="checkInputHasError(element)? 'error-input' : 'node-value'" type="text" [name]="element.location" [formControlName]="element.location" [appFocusInput]="selectedFieldId" [elementLocation]="element.location" [appResizeInput]="element.value + ''" (input)="markElementAsModified(element, formInput.value)" #formInput> 
+
+                  </span>            
+                  "
+    
+                </span>
+
+                <span *ngSwitchCase="null" class="node-value hide-overflow" fxFlex fxLayout="row">
+                  
+                  &nbsp;:&nbsp;
+                  <span class="hide-overflow pad-right-element">
+
+                    null
+
+                  </span>
+    
+                </span>
+
+                <span *ngSwitchCase="'array'" class="node-type hide-overflow" fxFlex fxLayout="row">
+                  
+                  &nbsp;:&nbsp;
+                  <span class="hide-overflow pad-right-element">
+
+                    {{element.type | titlecase}}
+
+                  </span>
+                  
+                </span>
+
+                <span *ngSwitchCase="'object'" class="node-type hide-overflow" fxFlex fxLayout="row">
+                  
+                  &nbsp;:&nbsp;
+                  <span class="hide-overflow pad-right-element">
+
+                    {{element.type | titlecase}}
+
+                  </span>
+    
+                </span>
+
+                <span *ngSwitchCase="'boolean'" class="node-value hide-overflow" fxFlex fxLayout="row">
+  
+                  &nbsp;:&nbsp;
+                  <span class="hide-overflow">
+
+                    <input class="custom-input" [ngClass]="checkInputHasError(element)? 'error-input' : 'node-value'" type="text" [name]="element.location" [formControlName]="element.location" [appFocusInput]="selectedFieldId" [elementLocation]="element.location" [appResizeInput]="element.value + ''" (input)="markElementAsModified(element, formInput.value)" #formInput [matTooltip]="checkInputHasError(element)? 'Invalid boolean value.' : ''"> 
+
+                  </span>
+
+                </span>
+
+                <span *ngSwitchCase="'number'" class="node-value hide-overflow" fxFlex fxLayout="row">
+  
+                  &nbsp;:&nbsp;
+                  <span class="hide-overflow">
+
+                    <input class="custom-input" [ngClass]="checkInputHasError(element)? 'error-input' : 'node-value'" type="text" [name]="element.location" [formControlName]="element.location" [appFocusInput]="selectedFieldId" [elementLocation]="element.location" [appResizeInput]="element.value + ''" (input)="markElementAsModified(element, formInput.value)" #formInput [matTooltip]="checkInputHasError(element)? 'Invalid number value.' : ''"> 
+
+                  </span>
+
+                </span>
+
+                <!-- <span *ngSwitchDefault class="node-value hide-overflow" fxFlex fxLayout="row">
+  
+                  &nbsp;:&nbsp;
+                  <span class="hide-overflow">
+
+                    <input class="custom-input" [ngClass]="checkInputHasError(element)? 'error-input' : 'node-value'" type="text" [name]="element.location" [formControlName]="element.location" [appFocusInput]="selectedFieldId" [elementLocation]="element.location" [appResizeInput]="element.value + ''" (input)="markElementAsModified(element, formInput.value)" #formInput> 
+
+                  </span>
+
+                </span> -->
+  
+              </ng-container>
+  
+            </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+            <mat-cell class="node-type" *matCellDef="let element">
+
+              <span [matMenuTriggerFor]="fieldTypeMenu" fxLayoutAlign="center center" (click) ="selectRow()" [ngClass]="((element.key === '_id') || (element.key === '_rev')) && element.level === 1 && !element.modified? 'hide-button' : ''">
+                {{ element.type === null? "Null" : element.type | titlecase }}
+                <mat-icon>
+                  arrow_drop_down
+                </mat-icon>
+              </span>
+              
+            </mat-cell>
+          </ng-container>
+        
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        
+          <mat-row *matRowDef="let row; columns: displayedColumns;" [appRowHighlight] [row] = "row" (mouseenter) = "mouseEnterRow(row)" (mouseleave) = "mouseLeaveRow()" [ngClass]="[row.modified? 'row-document-modified' : 'row-normal']"></mat-row>
+        </mat-table>
+
+      </mat-card-content>
+
+      <mat-card-footer [ngClass]="[!cardForm.invalid? 'footer-normal' : 'footer-error', modifiedElements.length > 0 && !cardForm.invalid? 'footer-document-modified' : 'footer-normal']" *ngIf="editMode === true" fxLayoutAlign="flex-start center">
+
+        <span class="error-message" *ngIf="(documentUpdateErrorMessage && documentUpdateErrorMessage !== '') && triggeredUpdate" fxFlex="65%">{{documentUpdateErrorMessage}}</span>
+  
+        <span class="modified-message" *ngIf="(documentUpdatedId && documentUpdatedId !== '' && documentUpdatedId == resultId && triggeredUpdate)" fxFlex="65%">Document updated successful.</span>
+
+
+
+        <span class="error-message" *ngIf="cardForm.invalid && !triggeredUpdate" fxFlex="65%">Update not permitted while document contains errors.</span>
+
+        <span class="modified-message" *ngIf="modifiedElements.length > 0 && !cardForm.invalid && !triggeredUpdate" fxFlex="65%">Document modified.</span>
+
+        <div id="edit-mode-btns-container" fxFlex fxLayoutAlign="flex-end center" fxLayoutGap="3px">
+
+          <button id="edit-mode-cancel-btn" mat-flat-button color="basic" *ngIf="editMode === true" type="button" (click)="cancelEditMode()" [disabled]="persistLoading">Cancel</button>
+
+          <button mat-stroked-button color="primary" *ngIf="editMode === true" type="submit" color="basic" [disabled]="cardForm.invalid || persistLoading">Update</button>
+
+        </div>
+
+      </mat-card-footer>
+
+    </form>
+
+    <mat-card-footer class="footer-error" *ngIf="documentDeletionMode === true" fxLayoutAlign="flex-start center">
+
+      <span class="error-message" *ngIf="!(documentDeletedId && documentDeletedId !== '' && documentDeletedId == resultId)" fxFlex="65%">Document flagged for deletion.</span>
+
+      <span class="error-message" *ngIf="(documentDeleteErrorMessage && documentDeleteErrorMessage !== '')" fxFlex="65%">{{documentDeleteErrorMessage}}</span>
+
+      <span class="modified-message" *ngIf="(documentDeletedId && documentDeletedId !== '' && documentDeletedId == resultId)" fxFlex="65%">Document deletion successful.</span>
+
+      <div id="edit-mode-btns-container" fxFlex fxLayoutAlign="flex-end center" fxLayoutGap="3px">
+
+        <button id="edit-mode-cancel-btn" mat-flat-button color="basic" type="button" (click)="cancelDeleteDocumentMode()" [disabled]="persistLoading">Cancel</button>
+
+        <button mat-stroked-button color="primary" type="button" color="basic" (click)="deleteDocument()" [disabled]="persistLoading">Update</button>
+
+      </div>
+
+    </mat-card-footer>
+    
+  </mat-card>
+
+  <mat-menu #fieldTypeMenu="matMenu">
+    <button mat-menu-item class="menu-item" (click)="selectFieldType('array')">Array</button>
+    <button mat-menu-item class="menu-item" (click)="selectFieldType('boolean')">Boolean</button>
+    <button mat-menu-item class="menu-item" (click)="selectFieldType('object')">Object</button>
+    <button mat-menu-item class="menu-item" (click)="selectFieldType('null')">Null</button>
+    <button mat-menu-item class="menu-item" (click)="selectFieldType('number')">Number</button>
+    <button mat-menu-item class="menu-item" (click)="selectFieldType('string')">String</button>
+  </mat-menu>
+
+  <mat-menu #addRowElementMenu="matMenu">
+    <button *ngIf="selectedRow?.type === 'array' && selectedRow?.delete !== true" mat-menu-item class="menu-item" (click)="addNewRow('addArrayElementTo')">
+      <mat-icon class="new-row-menu-icon">subdirectory_arrow_left</mat-icon>
+      
+      Add Array Element To&nbsp;<span class="node-key">{{selectedRow? selectedRow.key : ""}}</span>
+
+    </button>
+
+    <button *ngIf="selectedRow?.isArrayElement" mat-menu-item class="menu-item" (click)="addNewRow('addArrayElementAfter')">
+      <mat-icon class="new-row-menu-icon">add_box</mat-icon>
+      
+      Add Array Element After&nbsp;<span class="node-key">{{selectedRow? selectedRow.key : ""}}</span>
+
+    </button>
+
+    <button *ngIf="selectedRow?.type === 'object' && selectedRow?.delete !== true" mat-menu-item class="menu-item" (click)="addNewRow('addFieldTo')">
+      <mat-icon class="new-row-menu-icon">subdirectory_arrow_left</mat-icon>
+      
+      Add Field To&nbsp;<span class="node-key">{{selectedRow? selectedRow.key : ""}}</span>
+
+    </button>
+
+    <button *ngIf="!selectedRow?.isArrayElement" mat-menu-item class="menu-item" (click)="addNewRow('addFieldAfter')">
+      <mat-icon class="new-row-menu-icon">add_box</mat-icon>
+      
+      Add Field After&nbsp;<span class="node-key">{{selectedRow? selectedRow.key : ""}}</span>
+
+    </button>
+
+  </mat-menu>

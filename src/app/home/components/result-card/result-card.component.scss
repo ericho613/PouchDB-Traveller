@@ -1,0 +1,243 @@
+.document-deletion-mode {
+  border: solid red 2px;
+}
+
+#result-btns-section {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+#toggle-expansion-container {
+  position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.toggle-expansion-btn {
+  background-color: rgb(245, 245, 245);
+    border-radius: 5px;
+    border: solid rgb(215, 215, 215) 1px;
+    width: 35px;
+    height: 35px;
+}
+
+.toggle-expansion-btn:hover {
+  box-shadow: 0px 0px 5px grey;
+}
+
+.result-btn {
+  background-color: rgb(245, 245, 245);
+  border-radius: 5px;
+  border: solid rgb(215, 215, 215) 1px;
+  margin: 0 1.5px;
+  width: 25px;
+  height: 25px;
+}
+
+.result-btn:hover {
+  box-shadow: 0px 0px 5px grey;
+}
+
+.result-btn-icon {
+    font-size: 15px;
+}
+
+.toggle-expansion-btn-icon {
+  position: relative;
+  bottom: 5px;
+}
+
+.node-key {
+  font-weight: bold;
+}
+
+.node-type {
+  font-style: italic;
+}
+
+.node-value {
+  color: blue;
+}
+
+.tree-invisible {
+    display: none;
+}
+
+.tree ul,
+.tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+.tree-node {
+  display: block;
+  padding-left: 40px;
+}
+
+.tree-node .tree-node {
+  padding-left: 20px;
+}
+
+.row-document-modified {
+  background-color: rgb(228, 255, 185);
+}
+
+.row-normal {
+  background-color: transparent;
+}
+
+.footer-normal {
+  background-color: rgb(245, 245, 245);
+}
+
+.footer-error {
+  background-color: rgb(255, 185, 185);
+}
+
+.footer-document-modified {
+  background-color: rgb(228, 255, 185);
+}
+
+.error-message {
+  padding-left: 15px;
+  font-size: 15px;
+  font-style: italic;
+  color: red;
+}
+
+.modified-message {
+  padding-left: 15px;
+  font-size: 15px;
+  font-style: italic;
+  color: green;
+}
+
+.error-input {
+  color: red;
+  background-color: rgb(255, 185, 185);
+}
+
+#edit-mode-btns-container {
+  height: 45px;
+  padding-right: 15px;
+}
+
+#edit-mode-cancel-btn {
+  color: grey;
+}
+
+.add-btn {
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  right:5px;
+}
+
+.add-btn-hover {
+  border-radius: 3px;
+  background-color: white;
+  border: solid rgb(100, 100, 100) 1px;
+}
+
+.add-btn-unhover {
+  border:none;
+}
+
+.add-btn-icon {
+    font-size: 15px;
+}
+
+.new-row-menu-icon {
+  width: 5px;
+  font-size: 15px;
+  position: relative;
+  top:3px;
+}
+
+.delete-btn {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  right: 10px;
+}
+
+// [ngClass] = "[(!element.modified && hoveredRow.location === element.location) || (element.isNewRow && hoveredRow.location === element.location)? 'delete-btn-hover' : 'delete-btn-unhover']"
+
+// .delete-btn-hover {
+//   background-color: grey;
+// }
+
+// .delete-btn-unhover {
+//   background-color: transparent;
+// }
+
+.delete-btn-icon {
+  font-size: 20px;
+  font-weight: bold;
+  color: grey;
+  // position: relative;
+  // bottom: 2px;
+  // right: 4.5px;
+}
+
+.add-btn-delete {
+  background-color: rgb(255, 200, 100);
+  border-radius: 3px;
+  border:none;
+  color: white;
+}
+
+.add-btn-modified {
+  background-color: rgb(110, 255, 110);
+  border-radius: 3px;
+  border:none;
+  color: white;
+}
+
+.undo-btn-icon {
+  font-size: 20px;
+  font-weight: bold;
+  color: grey;
+  // position: relative;
+  // bottom: 1px;
+  // right: 4.5px;
+}
+
+//class is not present in html template but will be present
+// in compiled Angular code; this class adjust the width of
+// the index column
+.mat-column-index {
+  flex: 0 0 4.5%;
+}
+
+.mat-column-field {
+  flex: 0 0 84%;
+}
+
+// .mat-column-type {
+//   flex: 0 0 10%;
+// }
+
+.custom-input {
+  min-width: 1ch;
+  // max-width: 500px;
+}
+
+.hide-overflow {
+  overflow: hidden;
+}
+
+.pad-right-element {
+  padding-right: 3px;
+}
+
+.menu-item {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.hide-button{
+  visibility: hidden;
+}

@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Insert Document(s) to <strong>{{data.databaseName}}</strong></h1>
+
+<mat-dialog-content fxLayout="column">
+
+    <textarea [ngClass]="[errorMessage && errorMessage !== ''? 'textarea-error-border': '']" placeholder='e.g. [{"_id": "_idValue", "key2": "value2", "key3":{"nestedKey":"nestedValue"}, "key4": [1,2,3]}, {"key5": "value5"}]' id="document-textarea" (input)="checkInputIsValidJSON(textArea.value)" (paste)="checkInputIsValidJSON(textArea.value)" [disabled]="persistLoading" #textArea></textarea>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row">
+
+    <div *ngIf="errorMessage && errorMessage !== ''" class="error-message" fxFlex="60%">{{errorMessage}}</div>
+    <div *ngIf="documentCreateSuccessful" class="success-message" fxLayoutAlign="flex-start center">Document(s) insert successful.</div>
+    <div *ngIf="!documentCreateSuccessful" fxFlex fxLayoutAlign="flex-end center">
+        <button type="button" mat-raised-button (click)="beautifyJson()" color="accent" [disabled]="persistLoading">Beautify</button>
+        <button type="button" mat-button [mat-dialog-close]="false" [disabled]="persistLoading">Cancel</button>
+        <button type="button" mat-flat-button (click)="insertDocument()" color="primary" [disabled]="(errorMessage && errorMessage !== '') || data.newDocument === '' || persistLoading">Insert</button>
+    </div>
+    <div *ngIf="documentCreateSuccessful" fxFlex fxLayoutAlign="flex-end center">
+        <button type="button" mat-flat-button [mat-dialog-close]="data" color="primary">Close</button>
+    </div>
+    
+</mat-dialog-actions>

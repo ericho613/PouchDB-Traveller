@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>{{data.loadedDbConnection && data.loadedDbConnection.type === 'favorite'? "Edit Favorite" : "Save Database to Favorites"}}</h1>
+
+<mat-dialog-content fxLayout="column">
+
+    <mat-form-field fxFlex>
+        <mat-label>Database Name</mat-label>
+        <input type="text" matInput name="databaseName" placeholder="e.g. MyDatabase" [(ngModel)]="data.databaseName">
+        <button type="button" *ngIf="data.databaseName" matSuffix mat-icon-button aria-label="Clear" (click)="data.databaseName=''">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+
+    <div fxFlex fxLayoutAlign="flex-start">
+        <button type="button" *ngIf="data.loadedDbConnection && data.loadedDbConnection.type === 'favorite'" mat-stroked-button (click)="onRemoveClick()">Remove</button>
+    </div>
+    <div>
+        <button type="button" mat-stroked-button [mat-dialog-close]="false">Cancel</button>
+        <button type="button" mat-flat-button [mat-dialog-close]="data" color="primary">Save</button>
+    </div>
+    
+</mat-dialog-actions>

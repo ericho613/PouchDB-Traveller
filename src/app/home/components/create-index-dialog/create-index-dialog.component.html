@@ -1,0 +1,66 @@
+<h1 mat-dialog-title>Create Index</h1>
+
+<mat-dialog-content fxLayout="column">
+
+  <!-- <form fxLayout="column" #formCreateIndex="ngForm" (ngSubmit)="onSubmit(formCreateIndex)" fxFlex> -->
+
+  <form fxLayout="column" [formGroup]="createIndexDialogForm" (ngSubmit)="onSubmit()">
+
+    <p>Choose an index name (optional):</p>
+
+    <mat-form-field>
+        <mat-label>Index Name</mat-label>
+        <input type="text" matInput placeholder="e.g. myindex" formControlName="indexName" cdkFocusInitial>
+        <button type="button" class="info-btn" matPrefix mat-icon-button aria-label="Info" (click)="openExternalLink('https://pouchdb.com/api.html#create_index')">
+            <mat-icon>info</mat-icon>
+        </button>
+        <button type="button" *ngIf="indexNameValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearIndexNameValue()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    
+    <p>Choose a list of fields to index:</p>
+
+    <mat-form-field>
+        <mat-label>Index Fields</mat-label>
+        <input type="text" matInput placeholder='e.g. [ { "key1": "asc" }, "key2" ]' formControlName="indexFields">
+        <button type="button" class="info-btn" matPrefix mat-icon-button aria-label="Info" (click)="openExternalLink('https://pouchdb.com/api.html#create_index')">
+          <mat-icon>info</mat-icon>
+        </button>
+        <button type="button" *ngIf="indexFieldsValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearIndexFieldsValue()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="createIndexDialogForm.get('indexFields').errors?.required || createIndexDialogForm.get('indexFields').errors?.invalidJSONValue || createIndexDialogForm.get('indexFields').errors?.invalidArrayValue">Please enter valid index fields.</mat-error>
+    </mat-form-field>
+
+    <p>Choose a design document name (optional):</p>
+
+    <mat-form-field>
+        <mat-label>Design Document Name</mat-label>
+        <input type="text" matInput placeholder="e.g. mydesigndoc" formControlName="designDocumentName" >
+        <button type="button" class="info-btn" matPrefix mat-icon-button aria-label="Info" (click)="openExternalLink('https://pouchdb.com/api.html#create_index')">
+          <mat-icon>info</mat-icon>
+        </button>
+        <button type="button" *ngIf="designDocumentNameValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearDesignDocumentNameValue()">
+          <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row">
+
+  <div *ngIf="errorMessage && errorMessage !== ''" class="error-message" fxFlex="55%">{{errorMessage}}</div>
+  <div *ngIf="indexCreateSuccessful" class="success-message" fxLayoutAlign="flex-start center">Index creation successful.</div>
+
+  <div *ngIf="!indexCreateSuccessful" fxFlex fxLayoutAlign="flex-end center">
+    <button type="button" mat-button [mat-dialog-close]="false" [disabled]="persistLoading">Cancel</button>
+    <button type="button" mat-flat-button (click)="onSubmit()" color="primary" [disabled]="createIndexDialogForm.get('indexFields').errors?.required || createIndexDialogForm.get('indexFields').errors?.invalidJSONValue || createIndexDialogForm.get('indexFields').errors?.invalidArrayValue || persistLoading">Create Index</button>
+  </div>
+  <div *ngIf="indexCreateSuccessful" fxFlex fxLayoutAlign="flex-end center">
+      <button type="button" mat-flat-button [mat-dialog-close]="data" color="primary">Close</button>
+  </div>
+
+</mat-dialog-actions>

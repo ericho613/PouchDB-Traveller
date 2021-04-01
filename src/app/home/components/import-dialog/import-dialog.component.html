@@ -1,0 +1,80 @@
+<h1 mat-dialog-title>Import to <strong>{{data.databaseName}}</strong></h1>
+
+<mat-dialog-content>
+
+    <p>Select File</p>
+    <!-- <input type="file" name="myfile" (change)="data.file = $event.target.files.item(0)"> -->
+
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" [formGroup]="importDialogForm" (ngSubmit)="onSubmit()">
+
+        <div class="input-container" fxLayout="row">
+
+            <mat-form-field>
+                <mat-label>File path</mat-label>
+                <input type="text" matInput placeholder="e.g. C:/file-name" formControlName="fileImportPath" cdkFocusInitial>
+                <button mat-icon-button type="button" *ngIf="fileImportPathValue" matSuffix aria-label="Clear" (click)="clearFileImportPathValue()">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="importDialogForm.get('fileImportPath').errors?.required || importDialogForm.get('fileImportPath').errors?.invalidPath">Please enter a valid file path.</mat-error>
+            </mat-form-field>
+        
+            <button type="button" fxLayoutAlign="center center" class="browse-btn" mat-raised-button aria-label="Browse" (click)="openFileBrowse()">
+            <mat-icon>folder_open</mat-icon>
+            BROWSE
+            </button>
+    
+        </div>
+
+    </form>
+
+    <p>Select Input File Type</p>
+    <div class="file-type-btn-container" fxLayout="row" fxLayoutGap="10px">
+
+        <button type="button" fxFlex [ngClass]="fileType === 'JSON'? 'selected-file-type' : '' " mat-stroked-button aria-label="JSON" (click)="changeFileType('JSON')" fxLayoutAlign="center center">
+            JSON
+        </button>
+    
+        <button type="button" fxFlex [ngClass]="fileType === 'CSV'? 'selected-file-type' : '' " mat-stroked-button aria-label="CSV" (click)="changeFileType('CSV')" fxLayoutAlign="center center">
+            CSV
+        </button>
+
+    </div>
+
+    <div class="delimiter-dropdown" *ngIf="fileType === 'CSV'">
+
+        <mat-form-field appearance="fill">
+            <mat-label>Delimiter</mat-label>
+            <mat-select [(value)]="delimiter">
+              <mat-option></mat-option>
+              <mat-option [value]="dl" *ngFor="let dl of delimiterOptions">{{ dl }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+    </div>
+
+    <div class="progress-bar-container" *ngIf="documentsToBeTransferredCount || documentsToBeTransferredCount !== ''">
+
+        <progress [value]="transferPercentage" max="100" class="progress-bar"></progress>
+
+        <div fxLayoutAlign="flex-end center">
+           
+            <strong>{{transferCount}}/{{documentsToBeTransferredCount}}&nbsp;(&nbsp;{{transferPercentage}}%&nbsp;)</strong>
+
+        </div>
+
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row">
+
+    <div *ngIf="errorMessage && errorMessage !== ''" class="error-message" fxFlex="70%">{{errorMessage}}</div>
+    <div *ngIf="transferSuccessful" class="success-message" fxLayoutAlign="flex-start center">Document insert successful.</div>
+    <div *ngIf="!transferSuccessful" fxFlex fxLayoutAlign="flex-end center">
+        <button type="button" mat-button [mat-dialog-close]="false" [disabled]="transferInProcess">Cancel</button>
+        <button type="button" mat-flat-button (click)="onSubmit()" color="primary" [disabled]="importDialogForm.get('fileImportPath').errors?.required || importDialogForm.get('fileImportPath').errors?.invalidPath || transferInProcess || (!fileType || fileType === '')">Import</button>
+    </div>
+    <div *ngIf="transferSuccessful" fxFlex fxLayoutAlign="flex-end center">
+        <button type="button" mat-flat-button [mat-dialog-close]="data" color="primary">Close</button>
+    </div>
+
+</mat-dialog-actions>

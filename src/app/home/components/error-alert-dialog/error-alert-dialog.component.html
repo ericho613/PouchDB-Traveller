@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Error</h1>
+
+<mat-dialog-content>
+
+    <div class="error-message-container" fxLayoutGap="10px" fxLayout="column">
+        <div class="error-message" *ngFor="let errorMessage of data.errorMessages">{{errorMessage}}</div>
+    </div>
+    
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="flex-end">
+    <div fxFlex fxLayoutAlign="flex-start">
+
+        <button type="button" mat-button [mat-dialog-close]="true">Close Database</button>
+
+    </div>
+    <div fxLayoutAlign="flex-end">
+
+        <button type="button" mat-flat-button [mat-dialog-close]="false" color="primary">Close</button>
+
+    </div>
+</mat-dialog-actions>

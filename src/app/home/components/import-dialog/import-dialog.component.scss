@@ -1,0 +1,65 @@
+.file-type-btn-container{
+    height: 50px;
+}
+
+.selected-file-type {
+    border: solid darkgreen 2px;
+}
+
+// .error-message-container{
+//     padding-top: 10px;
+// }
+
+// .error-message{
+//     overflow: auto;
+//     max-height: 100px;
+//     color: white;
+//     background-color: rgb(255, 40, 40);
+//     border-radius: 5px;
+//     padding: 5px;
+// }
+
+.error-message {
+    padding-left: 15px;
+    font-size: 15px;
+    font-style: italic;
+    color: red;
+    max-height: 100px;
+    overflow: auto;
+    margin: auto;
+}
+
+.success-message {
+    padding-left: 15px;
+    font-size: 15px;
+    font-style: italic;
+    color: green;
+}
+
+.browse-btn {
+    height: 30px;
+    position: relative;
+    top:14px;
+    // bottom: 4px;
+}
+
+.input-container {
+    width: 100%;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.progress-bar{
+    width: 100%;
+}
+
+.progress-bar-container{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.delimiter-dropdown {
+    padding-top: 15px;
+}

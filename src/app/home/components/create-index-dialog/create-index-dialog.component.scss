@@ -1,0 +1,20 @@
+.info-btn {
+    color: grey;
+}
+
+.error-message {
+    padding-left: 15px;
+    font-size: 15px;
+    font-style: italic;
+    color: red;
+    max-height: 100px;
+    overflow: auto;
+    margin: auto;
+}
+
+.success-message {
+    padding-left: 15px;
+    font-size: 15px;
+    font-style: italic;
+    color: green;
+}
