@@ -1,5 +1,5 @@
 {
-  "productName": "angular-electron",
+  "productName": "pouchdb-traveller",
   "directories": {
     "output": "release/"
   },
@@ -20,10 +20,7 @@
         "!tslint.json"
     ],
   "win": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "portable"
-    ]
+    "icon": "dist/assets/icons"
   },
   "mac": {
     "icon": "dist/assets/icons",

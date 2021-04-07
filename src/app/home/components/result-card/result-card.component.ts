@@ -55,7 +55,7 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
   formGroupConfigObj;
   formGroupConfigObjOriginalCopy;
   intialFormValues;
-  hoveredRow = {};
+  hoveredRow: any = {};
   changedFormValues;
   @ViewChildren('formInput') formInputs;
   modifiedElements: DataNode[] = [];

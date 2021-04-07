@@ -13,6 +13,9 @@ import { ObjectID } from 'bson';
 const recentsFilePath = path.join(__dirname, '..','data','recents.json');
 const favoritesFilePath = path.join(__dirname, '..','data','favorites.json');
 
+const args = process.argv.slice(1),
+  serve = args.some(val => val === '--serve');
+
 ipcMain.on('open-folder-browse', event => {
 
   return event.returnValue = dialog.showOpenDialogSync(win, {
@@ -295,6 +298,11 @@ ipcMain.handle('persist', (event, persistType, persistItem) => {
         }else{
           itemToPersist = item;
         }
+
+        if(itemToPersist["_rev"]){
+          delete itemToPersist["_rev"];
+        }
+
         promises.push(getDb().put(itemToPersist)
         .then((result)=>{
           return getDb().get(result["id"]);
@@ -335,6 +343,11 @@ ipcMain.handle('persist', (event, persistType, persistItem) => {
       }else{
         itemToPersist = persistItem;
       }
+
+      if(itemToPersist["_rev"]){
+        delete itemToPersist["_rev"];
+      }
+
       return getDb().put(itemToPersist)
         .then((result)=>{
           return getDb().get(result["id"]);
@@ -554,7 +567,11 @@ ipcMain.handle('export-file', (event, filePath, fileType, delimiter) => {
   if(path.isAbsolute(filePath)){
     exportFilePath = filePath;
   }else{
-    exportFilePath = path.join(__dirname, '..', '..', '..', filePath);
+    if(serve){   
+      exportFilePath = path.join(__dirname, '..', '..', '..',filePath);
+    }else{
+      exportFilePath = path.join(app.getPath('home'), filePath);
+    }
   }
 
   return exportFile(exportFilePath, fileType, delimiter);

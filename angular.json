@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-electron": {
+    "pouchdb-traveller": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -81,24 +81,24 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "angular-electron:build"
+            "browserTarget": "pouchdb-traveller:build"
           },
           "configurations": {
             "dev": {
-              "browserTarget": "angular-electron:build:dev"
+              "browserTarget": "pouchdb-traveller:build:dev"
             },
             "web": {
-              "browserTarget": "angular-electron:build:web"
+              "browserTarget": "pouchdb-traveller:build:web"
             },
             "production": {
-              "browserTarget": "angular-electron:build:production"
+              "browserTarget": "pouchdb-traveller:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-electron:build"
+            "browserTarget": "pouchdb-traveller:build"
           }
         },
         "test": {
@@ -132,7 +132,7 @@
         }
       }
     },
-    "angular-electron-e2e": {
+    "pouchdb-traveller-e2e": {
       "root": "e2e",
       "projectType": "application",
       "architect": {
@@ -148,7 +148,7 @@
       }
     }
   },
-  "defaultProject": "angular-electron",
+  "defaultProject": "pouchdb-traveller",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

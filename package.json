@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "9.0.4",
-  "description": "Angular 11 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "pouchdb-traveller",
+  "version": "1.0.0",
+  "description": "PouchDB GUI",
+  "homepage": "https://github.com/ericho613/PouchDB-Traveller",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Eric Ho",
+    "email": "ericho613@gmail.com"
   },
   "keywords": [
     "angular",

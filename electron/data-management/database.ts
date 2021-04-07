@@ -2,6 +2,7 @@ const PouchDB = require('pouchdb-node');
 PouchDB.plugin(require('transform-pouch'));
 PouchDB.plugin(require('pouchdb-find'));
 PouchDB.plugin(require('pouchdb-size'));
+import { app } from 'electron';
 
 import { encrypt, decrypt, setSecretKey, setCryptographyAlgorithm } from './cryptography';
 import * as path from 'path';
@@ -9,6 +10,9 @@ import * as path from 'path';
 let dbStoragePath;
 
 let db;
+
+const args = process.argv.slice(1),
+  serve = args.some(val => val === '--serve');
 
 // export const setStoragePath = (newStoragePath) => {
 
@@ -36,7 +40,11 @@ export const connectToDatabase = (storagePath) => {
     if(path.isAbsolute(storagePath)){
         dbStoragePath = storagePath;
     }else{
-        dbStoragePath = path.join(__dirname, '..', '..', '..',storagePath);
+        if(serve){
+            dbStoragePath = path.join(__dirname, '..', '..', '..',storagePath);
+        }else{
+            dbStoragePath = path.join(app.getPath('home'), storagePath);
+        }
     }
     db = new PouchDB(dbStoragePath);
     db.installSizeWrapper();

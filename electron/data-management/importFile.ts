@@ -48,6 +48,10 @@ export const importFile = (filePath, fileType, delimiter) => {
               itemToPersist = item;
             }
 
+            if(itemToPersist["_rev"]){
+              delete itemToPersist["_rev"];
+            }
+
             promises.push(getDb().put(itemToPersist)
             .then((result)=>{
               transferCount++;
@@ -69,6 +73,10 @@ export const importFile = (filePath, fileType, delimiter) => {
             itemToPersist = {_id: new ObjectID().toHexString(), ...parsedData};
           }else{
             itemToPersist = parsedData;
+          }
+
+          if(itemToPersist["_rev"]){
+            delete itemToPersist["_rev"];
           }
 
           promises.push(getDb().put(itemToPersist)
@@ -123,6 +131,10 @@ export const importFile = (filePath, fileType, delimiter) => {
             itemToPersist = record;
           }
 
+          if(itemToPersist["_rev"]){
+            delete itemToPersist["_rev"];
+          }
+
           promises.push(getDb().put(itemToPersist)
             .then((result)=>{
               transferCount++;
@@ -167,7 +179,7 @@ export const importFile = (filePath, fileType, delimiter) => {
             if (chunk[i] == LINE_BREAK_ASCII_CODE) csvRowCount++;
         })
         .on('end', function() {
-          win.webContents.send('file-transfer-details', '0', '0', csvRowCount + '');
+          win.webContents.send('file-transfer-details', '0', '0', (csvRowCount-1) + '');
 
           fs.createReadStream(filePath)
           .on('data', function(chunk) {
