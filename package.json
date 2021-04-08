@@ -26,9 +26,9 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "ng": "ng",
-    "start": "npm-run-all -r dotenv/config -p electron:serve ng:serve",
+    "start": "npm-run-all -p electron:serve ng:serve",
     "build": "npm run electron:serve-tsc && ng build --base-href ./",
-    "build:dev": "npm run -r dotenv/config build -- -c dev",
+    "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
     "ng:serve": "ng serve -c web -o",
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
@@ -40,7 +40,7 @@
     "e2e": "npm run build:prod && cross-env TS_NODE_PROJECT='e2e/tsconfig.e2e.json' mocha --timeout 300000 --require ts-node/register e2e/**/*.e2e.ts",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "lint": "ng lint",
-    "script": "electron-builder -p 'onTagOrDraft'",
+    "release": "electron-builder -p 'onTagOrDraft'",
     "win-cert": "electron-builder create-self-signed-cert -p ericho613"
   },
   "dependencies": {
@@ -93,7 +93,6 @@
     "conventional-changelog-cli": "2.1.1",
     "core-js": "3.6.5",
     "cross-env": "7.0.3",
-    "dotenv": "8.2.0",
     "electron": "11.2.0",
     "electron-builder": "22.9.1",
     "electron-reload": "1.5.0",

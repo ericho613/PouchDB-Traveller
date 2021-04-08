@@ -138,25 +138,7 @@ PouchDB Traveller icon made by Freepik from www.flaticon.com
 
 # Getting Started With Running PouchDB Traveller
 
-If running the application in a development environment, create a '.env' file
-and declare the needed environment variables in the file.  See '.env.example' 
-for an example of how environment variables can be declared.  
-
-Note that '.env' files should not be pushed to source control because environment
-variable values used by developers can differ.  '.env' has been added to the
-'.gitignore' file to prevent the '.env' file from being added to source control.
-Also, '.env' files should not be present in the production environment for security 
-reasons; rather, environment variables should declared manually when starting the
-application.
-
-*NOTE: In production, the 'NODE_ENV' should be declared and assigned the value of
-'production'.  Setting 'NODE_ENV' to 'production' results in less verbose error
-messages.  Also, running 'npm install' after setting the variable prevents development
-dependencies from being installed.  Alternatively, to install only production
-dependencies, you could run the following 'npm install --production'. See below 
-for examples.
-
-To run the app in production with environment variables on a Linux OS,
+To run the app for production with environment variables on a Linux OS,
 declare all environment variables (see '.env.example' for the full list of environment 
 variables) as in the example below (with 'NODE_ENV' set to 'production'), then run 
 "npm run start" or 'npm run electron:build' (to build the app for production).
@@ -172,7 +154,7 @@ npm run electron:build
 separate the commands by a space.
 ex) NODE_ENV=production GH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXX CSC_KEY_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXX npm run electron:build
 
-To run the app in production with environment variables using the command prompt
+To run the app for production with environment variables using the command prompt
 on the Windows OS, declare all environment variables (see '.env.example' for the full 
 list of environment variables) as in the example below (with 'NODE_ENV' set to 'production'), 
 then run 'npm run start' or 'npm run electron:build' (to build the app for production).
@@ -188,7 +170,7 @@ npm run electron:build
 line by using '&&' as a separator, but do not place a space before and after '&&'.
 ex) set NODE_ENV=production&&set GH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXX&&set CSC_KEY_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXX&&npm run electron:build
 
-To run the app in production with environment variables using PowerShell (VSCode default)
+To run the app for production with environment variables using PowerShell (VSCode default)
 on the Windows OS, declare all environment variables (see '.env.example' for the full 
 list of environment variables) as in the example below (with 'NODE_ENV' set to 'production'), 
 then run 'npm run start:prod' or 'npm run electron:build' (to build the app for production).
@@ -196,8 +178,8 @@ then run 'npm run start:prod' or 'npm run electron:build' (to build the app for 
 ex)
 
 $env:NODE_ENV="production"
-$env:GH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXX
-$env:CSC_KEY_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXX
+$env:GH_TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXX"
+$env:CSC_KEY_PASSWORD="XXXXXXXXXXXXXXXXXXXXXXXXXX"
 npm run electron:build
 
 *Note that for Windows Powershell, you can declare the commands in a single 
