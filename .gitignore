@@ -63,5 +63,8 @@ electron/environment/*.js
 # Environment
 .env
 
-#Certificates
+# Certificates
 private/
+
+# Auto-update
+dev-app-update.yml
