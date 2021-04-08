@@ -57,3 +57,6 @@ electron/ipc/*.map
 electron/data/*.json
 electron/data-management/*.map
 electron/data-management/*.js
+
+# Environment
+.env
