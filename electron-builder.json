@@ -1,5 +1,6 @@
 {
-  "productName": "pouchdb-traveller",
+  "productName": "PouchDB Traveller",
+  "appId": "com.ericho613.pouchdb-traveller",
   "directories": {
     "output": "release/"
   },
@@ -19,8 +20,12 @@
         "!tsconfig.json",
         "!tslint.json"
     ],
+  "publish": {"provider":"github"},
   "win": {
-    "icon": "dist/assets/icons"
+    "icon": "dist/assets/icons",
+    "certificateFile": "private/ericho613.pfx",
+    "verifyUpdateCodeSignature": false,
+    "publisherName": "ericho613"
   },
   "mac": {
     "icon": "dist/assets/icons",

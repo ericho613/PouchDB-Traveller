@@ -28,8 +28,8 @@ export class DbConnectionEffects {
           .pipe(
             take(1),
             map(response => {
-              console.log(response);
-              return DbConnectionActions.databaseConnectionSuccess({connectionPath: action.connectionPath})
+              console.log(response.message);
+              return DbConnectionActions.databaseConnectionSuccess({connectionPath: response.connectedStoragePath})
             }),
             catchError(error => {
               return of(DbConnectionActions.databaseConnectionFail({connectionErrorMessage: error}));
@@ -81,7 +81,7 @@ export class DbConnectionEffects {
         if(dbConnectionState.databaseConnection && dbConnectionState.databaseConnection.type){
           if(dbConnectionState.databaseConnection.type === 'favorite'){
 
-            let modifiedDbConnection = {...dbConnectionState.databaseConnection, lastDateTimeAccessed: new Date().toString()};
+            let modifiedDbConnection = {...dbConnectionState.databaseConnection, connectionPath: action.connectionPath, lastDateTimeAccessed: new Date().toString()};
 
             this.store.dispatch(SidenavListActions.updateFavorite({favorite: modifiedDbConnection}));
 
@@ -89,7 +89,7 @@ export class DbConnectionEffects {
 
           }else if(dbConnectionState.databaseConnection.type === 'recent'){
 
-            let modifiedDbConnection = {...dbConnectionState.databaseConnection, id: uuidv4(), lastDateTimeAccessed: new Date().toString()};
+            let modifiedDbConnection = {...dbConnectionState.databaseConnection, id: uuidv4(), connectionPath: action.connectionPath, lastDateTimeAccessed: new Date().toString()};
 
             this.store.dispatch(SidenavListActions.addRecent({recent: modifiedDbConnection}));
 

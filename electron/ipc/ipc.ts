@@ -152,7 +152,11 @@ ipcMain.handle('connect-to-database', (event, storagePath) => {
 
     try {
       let connectedStoragePath = connectToDatabase(storagePath);
-      resolve("Connected database: " + connectedStoragePath)
+      let response = {
+        message: "Connected database: " + connectedStoragePath,
+        connectedStoragePath: connectedStoragePath
+      }
+      resolve(response)
     } catch (error) {
       return reject(error);
     }
