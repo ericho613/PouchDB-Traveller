@@ -62,3 +62,6 @@ electron/environment/*.js
 
 # Environment
 .env
+
+#Certificates
+private/
