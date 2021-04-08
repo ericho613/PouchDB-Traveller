@@ -7,17 +7,20 @@ import {
 import * as fromSidenavList from '../home/components/sidenav-list/store/sidenav-list.reducer';
 import * as fromDbConnection from '../home/components/db-connection/store/db-connection.reducer';
 import * as fromDbDetail from '../home/components/db-detail/store/db-detail.reducer';
+import * as fromHeader from '../home/components/header/store/header.reducer';
 
 export interface AppState {
   sidenavList: fromSidenavList.State;
   dbConnection: fromDbConnection.State;
   dbDetail: fromDbDetail.State;
+  header: fromHeader.State;
 }
 
 export const appReducer: ActionReducerMap<AppState> = {
   sidenavList: fromSidenavList.sidenavListReducer,
   dbConnection: fromDbConnection.databaseConnectionReducer,
-  dbDetail: fromDbDetail.dbDetailReducer
+  dbDetail: fromDbDetail.dbDetailReducer,
+  header: fromHeader.headerReducer
 };
 
 // export const getSidenavListState = createFeatureSelector<fromSidenavList.State>('sidenavList');

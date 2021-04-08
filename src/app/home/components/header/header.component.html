@@ -1,15 +1,32 @@
-<mat-toolbar class="banner" *ngIf="showUpdateBanner">
+<mat-toolbar class="banner" *ngIf="showDownloadBanner">
   <div id="banner-message">
-    A new update has been downloaded. Restart application to apply changes?
+    New update available. Would you like to download the new update?
   </div>
 
   <div fxFlex fxLayout fxLayoutAlign="flex-end">
 
-    <button type="button" class="banner-button" mat-button color="primary" (click)="restart()" aria-label="Restart" fxLayoutAlign="center center">Restart</button>
+    <button type="button" class="banner-button" mat-button color="primary" (click)="downloadUpdate()" aria-label="Yes" fxLayoutAlign="center center">Yes</button>
 
-    <button type="button" class="banner-button" mat-button (click)="showUpdateBanner=false" aria-label="Later" fxLayoutAlign="center center">Later</button>
+    <button type="button" class="banner-button" mat-button (click)="cancelDownloadUpdateBanner()" aria-label="No" fxLayoutAlign="center center">No</button>
 
-    <button type="button" class="banner-button" mat-icon-button (click)="showUpdateBanner=false" aria-label="Cancel" fxLayoutAlign="center center">
+    <mat-icon>close</mat-icon>
+    </button>
+
+  </div>
+
+</mat-toolbar>
+
+<mat-toolbar class="banner" *ngIf="showDownloadBanner">
+  <div id="banner-message">
+    New update downloaded. Would you like to install the update and restart the application now?
+  </div>
+
+  <div fxFlex fxLayout fxLayoutAlign="flex-end">
+
+    <button type="button" class="banner-button" mat-button color="primary" (click)="installAndRestart()" aria-label="Yes" fxLayoutAlign="center center">Restart</button>
+
+    <button type="button" class="banner-button" mat-button (click)="cancelInstallAndRestartBanner()" aria-label="Later" fxLayoutAlign="center center">Later</button>
+
     <mat-icon>close</mat-icon>
     </button>
 

@@ -9,6 +9,7 @@ import * as fs from 'fs';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
 import * as SidenavListActions from '../../../home/components/sidenav-list/store/sidenav-list.actions';
+import * as HeaderActions from '../../../home/components/header/store/header.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -42,11 +43,43 @@ export class ElectronService {
       this.ipcRenderer.on( 'file-transfer-details', (e, transferCount, transferPercentage, documentsToBeTransferredCount) => {
         this.store.dispatch(SidenavListActions.setTransferDetails({documentsToBeTransferredCount: documentsToBeTransferredCount, transferCount: transferCount, transferPercentage: transferPercentage}));
       })
+
+      //listening for update found
+      this.ipcRenderer.on( 'update-found', (e) => {
+        this.store.dispatch(HeaderActions.setShowDownloadBanner({showDownloadBanner: true}));
+      })
+
+      //listening for update found
+      this.ipcRenderer.on( 'update-downloaded', (e) => {
+        this.store.dispatch(HeaderActions.setShowInstallAndRestartBanner({showInstallAndRestartBanner: true}));
+      })
+
+
     }
   }
 
   openExternalLink(link){
     this.shell.openExternal(link);
+  }
+
+  downloadUpdate(){
+    return this.ipcRenderer?.invoke( 'download-accept' )
+      .then( response => {
+        console.log(response);
+      })
+      .catch(error => {
+        throw error;
+      })
+  }
+
+  installUpdateAndRestart(){
+    return this.ipcRenderer?.invoke( 'install-accept' )
+      .then( response => {
+        console.log(response);
+      })
+      .catch(error => {
+        throw error;
+      })
   }
 
   openFolderBrowse(){

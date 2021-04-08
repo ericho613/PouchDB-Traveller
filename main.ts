@@ -2,6 +2,7 @@ import { app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 // import * as url from 'url';
 import './electron/ipc';
+import { checkForUpdates } from './electron/updater/updater';
 // import './electron/data-management';
 
 export let win: BrowserWindow = null;
@@ -9,6 +10,8 @@ const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
 
 function createWindow(): BrowserWindow {
+
+  setTimeout(checkForUpdates, 1500);
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
