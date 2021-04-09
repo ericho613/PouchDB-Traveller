@@ -83,7 +83,6 @@ export class ExportDialogComponent implements OnInit, OnDestroy {
 
   openFileSaveBrowse(){
     let filePath = this.electronService.openFileSaveBrowse(this.fileType);
-    // console.log(filePath);
     if(filePath){
       this.fileExportPathValue = filePath;
       this.store.dispatch(SidenavListActions.clearTransferDetails());

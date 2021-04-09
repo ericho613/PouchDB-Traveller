@@ -20,7 +20,6 @@ export const createFetchOptions = (previousPageIndex = 0 , currentPageIndex = 0,
 
   //first fetch
   if((previousFetchOptions === null)){
-    // console.log("first fetch");
     fetchOptions["descending"] = false;
     fetchOptions["skip"] = 0;
     previousFetchOptions = fetchOptions;
@@ -32,9 +31,6 @@ export const createFetchOptions = (previousPageIndex = 0 , currentPageIndex = 0,
 
   //when the page size decreases
   if(pageSize < previousPageSize && previousPageSize !==null){
-    // console.log(pageSize);
-    // console.log(previousPageSize);
-    // console.log("page size decrease");
     let newStartKey = startedAtId < finishedAtId ? startedAtId : finishedAtId;
     fetchOptions = {...previousFetchOptions, startkey: newStartKey, skip: 0, descending: false, limit: pageSize};
     previousFetchOptions = fetchOptions;
@@ -44,17 +40,11 @@ export const createFetchOptions = (previousPageIndex = 0 , currentPageIndex = 0,
 
   //when the page size increases
   }else if(pageSize > previousPageSize && previousPageSize !==null){
-    // console.log("page size increase");
-    // console.log("previousPageSize: "+ previousPageSize);
-    // console.log("pageSize: "+ pageSize);
     let previousStartingKeyIndex = previousPageIndex * previousPageSize;
     let currentStartingKeyIndex = currentPageIndex * pageSize;
     //remember to skip the starting key in this case
     startingKeyIndexDifference = previousStartingKeyIndex - currentStartingKeyIndex;
     newLimit = currentStartingKeyIndex === 0? 1 : currentStartingKeyIndex;
-    // console.log("new limit: " +  newLimit);
-
-    // console.log("startingKeyIndexDifference: " + startingKeyIndexDifference);
 
     if(startingKeyIndexDifference>0){
       newPageSize = pageSize;
@@ -74,7 +64,6 @@ export const createFetchOptions = (previousPageIndex = 0 , currentPageIndex = 0,
 
   //forward search
   if(currentPageIndex - previousPageIndex === 1){
-    // console.log("forward search");
     fetchOptions["descending"] = false;
     fetchOptions["skip"] = 1;
 
@@ -90,12 +79,10 @@ export const createFetchOptions = (previousPageIndex = 0 , currentPageIndex = 0,
       fetchOptions["startkey"] = startedAtId;
 
     }
-    // console.log(fetchOptions.startkey);
     lastDirection = "forward";
 
   //backward search
   }else if(currentPageIndex - previousPageIndex === -1){
-    // console.log("backward search");
     fetchOptions["descending"] = true;
     fetchOptions["skip"] = 1;
 
@@ -116,7 +103,6 @@ export const createFetchOptions = (previousPageIndex = 0 , currentPageIndex = 0,
 
   //navigate to end
   }else if(currentPageIndex - previousPageIndex > 1){
-    // console.log("navigate to end (backward)");
     fetchOptions["descending"] = true;
     fetchOptions["skip"] = 0;
     fetchOptions["startkey"] = null;
@@ -125,7 +111,6 @@ export const createFetchOptions = (previousPageIndex = 0 , currentPageIndex = 0,
 
   //navigate to beginning
   }else if(currentPageIndex - previousPageIndex < -1){
-    // console.log("navigate to beginning (forward)");
     fetchOptions["descending"] = false;
     fetchOptions["skip"] = 0;
     fetchOptions["startkey"] = null;
@@ -150,7 +135,6 @@ export const fetchNextPage = (options) => {
         .then(response => {
           
           let finishedAtDocId = response.rows[response.rows.length - 1].id;
-          // console.log("finishedAtDocId: " + finishedAtDocId);
           let newPageLimit = newPageSize;
           previousPageSize =  newPageSize;
           newPageSize = null;

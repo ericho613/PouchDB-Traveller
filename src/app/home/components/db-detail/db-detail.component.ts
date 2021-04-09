@@ -54,8 +54,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
   filterSearchPaginatorPageSizeOptions: Array<number>;
   filterSearchPaginatorLength: number;
   filterSearchResults: Array<any>;
-  // filterSearchStartIndex: number;
-  // filterSearchEndIndex: number;
 
   loadedDbConnection: DBConnection;
 
@@ -115,10 +113,8 @@ export class DbDetailComponent implements OnInit, OnDestroy {
 
       
       if(this.searchFilter){
-        // console.log(this.searchFilter);
         this.filterSearchResults = this.dbResults.slice(this.filterSearchPaginator.pageIndex * this.filterSearchPaginator.pageSize, ((this.filterSearchPaginator.pageIndex * this.filterSearchPaginator.pageSize) + this.filterSearchPaginator.pageSize));
       }else{
-        // console.log("No search filter.");
         this.filterSearchResults = null;
       }
 
@@ -140,7 +136,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
       if(this.errorMessagesArray.length > 0){
         console.log(this.errorMessagesArray);
         this.openErrorAlertDialog(this.errorMessagesArray);
-        // this.errorMessagesArray = [];
       }
       
     });
@@ -154,7 +149,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
       }
       if(this.errorMessagesArray.length > 0){
         this.openErrorAlertDialog(this.errorMessagesArray);
-        // this.errorMessagesArray = [];
       }
     });
 
@@ -180,8 +174,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
     this.searchPaginator.pageSize = 10;
     this.searchPaginatorPageSize = 10;
     let resetStatusMessage = this.electronService.resetSearch();
-    // console.log(this.paginatorLength);
-    // this.paginator.length = this.paginatorLength;
     console.log(resetStatusMessage);
     this.store.dispatch(DbDetailActions.setSearchFilter({searchFilter:null}));
     this.store.dispatch(DbDetailActions.fetchDatabaseResults({previousPageIndex: null, currentPageIndex: null, pageSize: null}));
@@ -192,8 +184,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
     if(this.searchFilter){
       this.store.dispatch(DbDetailActions.filterSearch({searchFilter:this.searchFilter}));
       this.filterSearchResults = this.dbResults.slice(this.filterSearchPaginator.pageIndex * this.filterSearchPaginator.pageSize, ((this.filterSearchPaginator.pageIndex * this.filterSearchPaginator.pageSize) + this.filterSearchPaginator.pageSize));
-      // console.log(this.filterSearchPaginator.pageIndex);
-      // console.log(this.filterSearchPaginator.pageSize);
     }else{
       this.store.dispatch(DbDetailActions.fetchDatabaseResults({previousPageIndex: null, currentPageIndex: null, pageSize: null}));
     }
@@ -294,8 +284,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
   // based on the pagination strategy
   fetchFilterSearchPaginationResults(pageEvent){
     console.log(pageEvent);
-    // this.filterSearchStartIndex = pageEvent.pageIndex * pageEvent.pageSize;
-    // this.filterSearchEndIndex = ((pageEvent.pageIndex * pageEvent.pageSize) + pageEvent.pageSize);
     this.filterSearchPaginatorPageSize = pageEvent.pageSize;
 
     this.filterSearchResults = this.dbResults.slice(pageEvent.pageIndex * pageEvent.pageSize, ((pageEvent.pageIndex * pageEvent.pageSize) + pageEvent.pageSize));
@@ -317,8 +305,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
-      console.log(result);
 
       this.favoriteBtn['_elementRef'].nativeElement
       .classList.remove('cdk-program-focused');
@@ -371,7 +357,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.store.dispatch(DbDetailActions.clearPersistIndexDetails({persistIndexType:"create"}));
     });
 
@@ -390,7 +375,6 @@ export class DbDetailComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
 
       this.databaseInfoErrorMessage = null;
       this.databaseResultsErrorMessage = null;

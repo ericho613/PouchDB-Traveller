@@ -1,9 +1,6 @@
 import { app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
-// import * as url from 'url';
 import './electron/ipc';
-import { checkForUpdates } from './electron/updater/updater';
-// import './electron/data-management';
 
 export let win: BrowserWindow = null;
 const args = process.argv.slice(1),

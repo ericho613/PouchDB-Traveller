@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of, from } from 'rxjs';
-import { switchMap, map, withLatestFrom, tap, catchError, take} from 'rxjs/operators';
-// import { Router } from '@angular/router';
+import { switchMap, map, tap, catchError, take} from 'rxjs/operators';
 import * as DbDetailActions from './db-detail.actions';
-// import * as DbConnectionActions from '../../db-connection/store/db-connection.actions';
-import { DBIndex, DBInfo } from '../../../../shared/models';
 import * as fromApp from '../../../../store/app.reducer';
 import { ElectronService } from '../../../../core/services/index';
 
@@ -21,7 +18,6 @@ export class DbDetailEffects {
         .pipe(
           take(1),
           map(databaseInfo => {
-            // console.log(databaseInfo);
             return DbDetailActions.fetchSuccessful({fetchType: "databaseInfo", databaseInfo: databaseInfo});
           }),
           catchError(error => {
@@ -37,25 +33,19 @@ export class DbDetailEffects {
     this.actions$.pipe(
       ofType(DbDetailActions.fetchDatabaseResults),
       switchMap((action) => {
-        //add database interaction here
 
         let fetchOptionsObj = null;
         let previousPageIndex = action.previousPageIndex !== null? action.previousPageIndex : null;
         let currentPageIndex = action.currentPageIndex !== null? action.currentPageIndex : null;
         let pageSize = action.pageSize !== null? action.pageSize : null;
-        // console.log(previousPageIndex);
-        // console.log(currentPageIndex);
-        // console.log(pageSize);
         if((action.previousPageIndex !== null) && (action.currentPageIndex !== null) && (action.pageSize !== null)){
           fetchOptionsObj = {previousPageIndex: previousPageIndex, currentPageIndex: currentPageIndex, pageSize: pageSize};
         };
-        // console.log(fetchOptionsObj);
 
         return from(this.electronService.fetchDatabaseResults(fetchOptionsObj))
         .pipe(
           take(1),
           map(response => {
-            // console.log(databaseInfo);
             return DbDetailActions.fetchSuccessful({fetchType: "databaseResults", databaseResults: response});
           }),
           tap(()=>{
@@ -75,13 +65,11 @@ export class DbDetailEffects {
     this.actions$.pipe(
       ofType(DbDetailActions.fetchDatabaseIndexes),
       switchMap(() => {
-        //add database interaction here
 
         return from(this.electronService.fetchDatabaseIndexes())
         .pipe(
           take(1),
           map(databaseIndexes => {
-            // console.log(databaseInfo);
             return DbDetailActions.fetchSuccessful({fetchType: "databaseIndexes", databaseIndexes: databaseIndexes});
           }),
           catchError(error => {
@@ -111,14 +99,6 @@ export class DbDetailEffects {
         }
         return from(this.electronService.persist(action.persistType, persistItem))
           .pipe(
-            // tap(result => {
-            //   if(action.persistType === "delete"){
-            //       this.store.dispatch(DbDetailActions.persistSuccessful({documentToDeleteId: result.id}));
-            //       setTimeout(()=>{
-            //         this.store.dispatch(DbDetailActions.persistSuccessful({persistType: action.persistType, documentToDeleteId: result.id}));
-            //       }, 1000)
-            //   }
-            // }),
             take(1),
             map(result => {
               console.log(result);
@@ -155,10 +135,7 @@ export class DbDetailEffects {
                   
                 case "delete":
 
-                  // this.store.dispatch(DbDetailActions.persistSuccessful({documentToDeleteId: result.id}));
-                  // setTimeout(()=>{
                     return DbDetailActions.setDocumentDeletedId({documentDeletedId: result.id});
-                  // }, 1000)
                   
               }
               
@@ -215,13 +192,10 @@ export class DbDetailEffects {
     { dispatch: false }
   );
 
-  //when applying a filter for searching, make sure to re-fetch the indexes as well
-
   filterSearch$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DbDetailActions.filterSearch),
       switchMap((action) => {
-        //add database interaction here
 
         return from(this.electronService.filterSearch(action.searchFilter))
           .pipe(
@@ -275,12 +249,6 @@ export class DbDetailEffects {
     this.actions$.pipe(
       ofType(DbDetailActions.persistIndexSuccessful),
       tap((action) => {
-        // if(action.documentToDeleteId && action.persistType === "delete"){
-        //   this.store.dispatch(DbDetailActions.clearPersistDetails({persistType: "delete"}))
-        // }
-        // if(action.documentToUpdate && action.persistType === "update"){
-        //   this.store.dispatch(DbDetailActions.clearPersistDetails({persistType: "update"}))
-        // }
         this.store.dispatch(DbDetailActions.fetchDatabaseInfo());
       }),
       map((action)=>{
@@ -294,7 +262,6 @@ export class DbDetailEffects {
   constructor(
     private actions$: Actions,
     private electronService: ElectronService,
-    // private router: Router,
     private store: Store<fromApp.AppState>
   ) {}
 }

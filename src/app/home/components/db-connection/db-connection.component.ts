@@ -24,12 +24,10 @@ export class DbConnectionComponent implements OnInit, OnDestroy {
 
   title: string;
   createOrOpenDbPathValue: string;
-  // createOrOpenDbPathValueValid: boolean;
   lastDateTimeAccessed: string;
   pathEditMode: boolean;
   loadedDbConnection: DBConnection;
 
-  // @ViewChild('formcreateOrOpenDbPath') form;
   @ViewChild('favoriteBtn') favoriteBtn : ElementRef;
 
   private dbConnectionStoreSub: Subscription;
@@ -52,9 +50,6 @@ export class DbConnectionComponent implements OnInit, OnDestroy {
 
     this.dbConnectionFormSub = this.dbConnectionForm.valueChanges.subscribe(changedValues => {
       this.createOrOpenDbPathValue = changedValues.createOrOpenDbPath;
-      // this.createOrOpenDbPathValueValid = this.checkPathIsValid(this.createOrOpenDbPathValue);
-
-      // console.log(this.checkPathIsValid());
     });
 
     this.dbConnectionStoreSub = this.store.select("dbConnection").subscribe((dbConnectionState) => {
@@ -102,13 +97,6 @@ export class DbConnectionComponent implements OnInit, OnDestroy {
       }
     }
     
-    // .then( result => {
-    //   if(!result.canceled){
-    //     this.createOrOpenDbPathValue = result.filePaths[0];
-    //     this.dbConnectionForm.patchValue({'createOrOpenDbPath': result.filePaths[0]});
-    //   }
-      
-    // });
   }
 
   clearCreateOrOpenDbPathValue(){
@@ -126,15 +114,6 @@ export class DbConnectionComponent implements OnInit, OnDestroy {
     
   }
 
-  // checkPathIsValid(value: string){
-  //   let regexPattern = new RegExp(/^(?:[a-z]:)?[\/\\]{0,2}(?:[.\/\\ ](?![.\/\\\n])|[^<>:"|?*.\/\\ \n])+$/gmi);
-
-  //   if(regexPattern.test(value)){
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   openFavoriteDialog() {
 
     const dialogRef = this.dialog.open(FavoriteDialogComponent, {
@@ -150,8 +129,6 @@ export class DbConnectionComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
-      console.log(result);
 
       this.favoriteBtn['_elementRef'].nativeElement
       .classList.remove('cdk-program-focused');
@@ -217,18 +194,12 @@ export class DbConnectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    // console.log(this.dbConnectionForm);
     if(!this.dbConnectionForm.value.createOrOpenDbPath){
       return;
     }
-    // console.log(this.dbConnectionForm.get('createOrOpenDbPath').valid);
-    // console.log(this.dbConnectionForm.value.createOrOpenDbPath);
-    // console.log(this.createOrOpenDbPathValue);
 
     this.store.dispatch(DbConnectionActions.createOrOpenDatabase({connectionPath: this.createOrOpenDbPathValue}));
 
-
-    // this.dbConnectionForm.reset();
   }
 
   ngOnDestroy(){

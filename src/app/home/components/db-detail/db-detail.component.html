@@ -119,8 +119,6 @@
 
     <div id="pagination-section" fxLayout="row" fxLayoutAlign="flex-end center">
 
-      <!-- <div class="search-filter-results-count" *ngIf="searchFilter" fxFlex fxLayoutAlign="flex-start center">Displaying {{dbResults.length}} results... </div> -->
-
       <mat-paginator [ngClass]="[searchFilter? '' : 'hide-display']" [pageSize]="filterSearchPaginatorPageSize" [pageSizeOptions]="filterSearchPaginatorPageSizeOptions" [length]="filterSearchPaginatorLength" showFirstLastButtons (page)="fetchFilterSearchPaginationResults($event)" #filterSearchPaginator>
       </mat-paginator>
 

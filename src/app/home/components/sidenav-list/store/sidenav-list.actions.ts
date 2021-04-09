@@ -1,10 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import { DBConnection } from '../../../../shared/models';
 
-// export const fetchDefaultDbConnectionTitle = createAction(
-//   '[Sidenav-list] Set Default DB Connection Title'
-// );
-
 export const addFavorite = createAction(
   '[Sidenav-list] Add Favorite',
   props<{
@@ -25,13 +21,6 @@ export const deleteFavorite = createAction(
     id: string;
   }>()
 );
-
-// export const setFavorites = createAction(
-//   '[Sidenav-list] Set Favorites',
-//   props<{
-//     favorites: DBConnection[];
-//   }>()
-// );
 
 export const fetchFavorites = createAction(
   '[Sidenav-list] Fetch Favorites'
@@ -54,23 +43,12 @@ export const fetchUnsuccessful = createAction(
   }>()
 );
 
-// export const storeFavorites = createAction(
-//   '[Sidenav-list] Store Favorites'
-// );
-
 export const addRecent = createAction(
   '[Sidenav-list] Add Recent',
   props<{
     recent: DBConnection
   }>()
 );
-
-// export const updateRecent = createAction(
-//   '[Sidenav-list] Update Recent',
-//   props<{
-//     recent: DBConnection
-//   }>()
-// );
 
 export const deleteRecent = createAction(
   '[Sidenav-list] Delete Recent',
@@ -94,10 +72,6 @@ export const storeRecents = createAction(
   '[Sidenav-list] Store Recents'
 );
 
-// export const closeDatabase = createAction(
-//   '[Sidenav-list] Close Database'
-// );
-
 export const setCryptoSettings = createAction(
   '[Sidenav-list] Set Crypto Settings',
   props<{
@@ -114,14 +88,7 @@ export const removeCryptoSettings = createAction(
 );
 
 export const setCryptoSettingsSuccessful = createAction(
-  '[Sidenav-list] Set Crypto Settings Successful',
-  // props<{
-  //   cryptoSpec: string;
-  //   applyEncryption: boolean;
-  //   applyDecryption: boolean;
-  //   cryptoSecretKey: string;
-  // }>()
-  
+  '[Sidenav-list] Set Crypto Settings Successful'
 );
 
 export const setCryptoSettingsUnsuccessful = createAction(

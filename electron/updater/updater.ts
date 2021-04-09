@@ -11,7 +11,7 @@ autoUpdater.autoDownload = false;
 
 ipcMain.handle('download-accept', event => {
 
-    console.log("download accept");
+    console.log("Download accepted...");
 
     autoUpdater.downloadUpdate();
 
@@ -21,7 +21,7 @@ ipcMain.handle('download-accept', event => {
 
 ipcMain.handle('install-accept', event => {
 
-    console.log("install accept");
+    console.log("Install accepted...");
 
     //the first argument of quitAndInstall is whether to show
     // the installer window while updating; the second
@@ -36,7 +36,7 @@ ipcMain.handle('install-accept', event => {
 //listen for update found
 autoUpdater.on('update-available', () => {
 
-    console.log("update available");
+    console.log("Update available...");
 
     //prompt user to start download
     win.webContents.send('update-found');
@@ -46,7 +46,7 @@ autoUpdater.on('update-available', () => {
 //listen for update download finished
 autoUpdater.on('update-downloaded', () => {
 
-    console.log("update downloaded");
+    console.log("Update download complete...");
     win.webContents.send('update-downloaded');
     
 });
@@ -54,7 +54,6 @@ autoUpdater.on('update-downloaded', () => {
 //listen for update download finished
 autoUpdater.on('download-progress', (progress) => {
 
-    console.log("download progress");
     console.log(progress);
     win.webContents.send('download-progress', progress.total, progress.transferred, progress.percent);
     
@@ -70,7 +69,5 @@ export const checkForUpdates = () => {
 
     //check for new update on Github releases
     autoUpdater.checkForUpdates();
-
-    console.log("autoUpdate check")
 
 };

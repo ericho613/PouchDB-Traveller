@@ -2,8 +2,6 @@
 
 <mat-dialog-content fxLayout="column">
 
-  <!-- <form fxLayout="column" #formCreateIndex="ngForm" (ngSubmit)="onSubmit(formCreateIndex)" fxFlex> -->
-
   <form fxLayout="column" [formGroup]="createIndexDialogForm" (ngSubmit)="onSubmit()">
 
     <p>Choose an index name (optional):</p>

@@ -17,11 +17,7 @@ export class ResizeInputDirective implements OnInit{
   constructor(private elRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit() {
-    // if(this.inputText != null && this.inputText !== 'null'){
       this.renderer.setStyle(this.elRef.nativeElement, 'width', (this.inputText.length + 1.45) + "ch");
-    // }else{
-    //   this.renderer.setStyle(this.elRef.nativeElement, 'width', 1.45 + "ch");
-    // }
   }
 
   @HostListener('input', ['$event.target.value']) input(inputValue) {

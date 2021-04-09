@@ -4,7 +4,6 @@ import * as DbDetailActions from '../db-detail/store/db-detail.actions';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
 import { Subscription } from 'rxjs';
-// import { v4 as uuidv4 } from 'uuid';
 import beautify from 'json-beautify';
 
 @Component({
@@ -65,24 +64,12 @@ export class DocInsertDialogComponent implements OnInit, OnDestroy {
         let modifiedDocumentsArray = [];
 
         reconstructedJSObject.forEach(item => {
-          // let itemToPersist;
-          // if(!item._id){
-          //   itemToPersist = {_id: uuidv4(), ...item};
-          // }else{
-          //   itemToPersist = item;
-          // }
           modifiedDocumentsArray.push(item);
         })
 
         this.store.dispatch(DbDetailActions.persist({persistType: "create", documentToCreate: modifiedDocumentsArray}));
         
       }else{
-        // let itemToPersist;
-        // if(!reconstructedJSObject._id){
-        //   itemToPersist = {_id: uuidv4(), ...reconstructedJSObject};
-        // }else{
-        //   itemToPersist = reconstructedJSObject;
-        // }
 
         this.store.dispatch(DbDetailActions.persist({persistType: "create", documentToCreate: reconstructedJSObject}));
         
@@ -97,16 +84,11 @@ export class DocInsertDialogComponent implements OnInit, OnDestroy {
   }
 
   beautifyJson(){
-    // this.data.newDocument = JSON.parse(beautify(this.data.newDocument, null, 2, 80));
     try {
       this.textArea.nativeElement.value = beautify(JSON.parse(this.data.newDocument), null, 2, 50)
     } catch (error) {
       this.errorMessage = "Invalid JSON.";
     }
-    
-    // .replace(/ /g, '&nbsp;') 
-    // .replace(/\n/g, '<br/>');
-    console.log(this.data.newDocument);
   }
 
   ngOnDestroy(){

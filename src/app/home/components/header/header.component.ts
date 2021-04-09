@@ -15,7 +15,6 @@ import * as HeaderActions from './store/header.actions';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  // page: string = 'db-connection';
   showDownloadBanner: boolean = false;
   showInstallAndRestartBanner: boolean = false;
   showDownloadProgressBanner: boolean = false;
@@ -43,9 +42,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       this.changeRef.detectChanges()
     });
-
-    // this.electronService.checkForUpdates();
-    
 
   }
 

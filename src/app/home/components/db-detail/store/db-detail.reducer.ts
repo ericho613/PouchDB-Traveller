@@ -71,26 +71,6 @@ import {
         })
     ),
   
-    // on(
-    //     DbDetailActions.addDatabaseIndex,
-    //   (state, action) => ({
-    //     ...state,
-    //     databaseIndexes: state.databaseIndexes.concat({ ...action.databaseIndex }),
-    //     databaseIndexesErrorMessage: ""
-    //   })
-    // ),
-  
-    // on(
-    //     DbDetailActions.deleteDatabaseIndex,
-    //   (state, action) => ({
-    //     ...state,
-    //     databaseIndexes: state.databaseIndexes.filter(
-    //       (element, index) => element.name !== action.name
-    //     ),
-    //     databaseIndexesErrorMessage: ""
-    //   })
-    // ),
-  
     on(
         DbDetailActions.setDatabaseIndexes,
       (state, action) => ({
@@ -282,7 +262,6 @@ import {
         ...state,
         databaseResultsLoading: true,
         databaseResultsErrorMessage: "",
-        // searchFilter: action.searchFilter? action.searchFilter : state.searchFilter
       })
     ),
 

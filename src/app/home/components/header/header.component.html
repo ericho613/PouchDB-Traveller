@@ -15,7 +15,7 @@
 
 <mat-toolbar class="banner" *ngIf="showInstallAndRestartBanner">
   <div id="banner-message">
-    New update downloaded. Would you like to install the update and restart the application now?
+    Download complete. Would you like to install the update and restart the application now?
   </div>
 
   <div fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="5px">
@@ -42,18 +42,4 @@
   <strong>{{progressTransferred}}&nbsp;/&nbsp;{{progressTotal}}&nbsp;(&nbsp;{{progressPercent}}%&nbsp;)</strong>
 
 </mat-toolbar>
-
-<!-- <mat-toolbar color="primary">
-    <div>
-      <button type="button" mat-icon-button (click)="onToggleSidenav()">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </div>
-    <div *ngIf="page === 'db-connection'">
-      Connect to a Database
-    </div>
-    <div *ngIf="page === 'db-detail'">
-      Database name
-    </div>
-  </mat-toolbar> -->
   

@@ -4,5 +4,4 @@
  export class DBInfo {
     documentCount: string;
     diskSize: string;
-    // indexCount: string;
 }

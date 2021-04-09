@@ -33,8 +33,4 @@ export const databaseConnectionFail = createAction(
   }>()
 );
 
-//is this action necessary?
-// export const clearError = createAction(
-//   '[Db-connection] Clear Error'
-// );
 

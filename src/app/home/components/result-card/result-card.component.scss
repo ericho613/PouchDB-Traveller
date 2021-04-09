@@ -163,23 +163,10 @@
   right: 10px;
 }
 
-// [ngClass] = "[(!element.modified && hoveredRow.location === element.location) || (element.isNewRow && hoveredRow.location === element.location)? 'delete-btn-hover' : 'delete-btn-unhover']"
-
-// .delete-btn-hover {
-//   background-color: grey;
-// }
-
-// .delete-btn-unhover {
-//   background-color: transparent;
-// }
-
 .delete-btn-icon {
   font-size: 20px;
   font-weight: bold;
   color: grey;
-  // position: relative;
-  // bottom: 2px;
-  // right: 4.5px;
 }
 
 .add-btn-delete {
@@ -200,9 +187,6 @@
   font-size: 20px;
   font-weight: bold;
   color: grey;
-  // position: relative;
-  // bottom: 1px;
-  // right: 4.5px;
 }
 
 //class is not present in html template but will be present
@@ -222,7 +206,6 @@
 
 .custom-input {
   min-width: 1ch;
-  // max-width: 500px;
 }
 
 .hide-overflow {

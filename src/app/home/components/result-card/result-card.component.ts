@@ -214,7 +214,6 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
         };
         this.selectedRow["type"] = null;
-        // this.selectedRow["value"] = null;
         break;
       case "number":
         if(originalTypeOfSelectedRow !== "number"){
@@ -348,8 +347,6 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
     switch(optionSelected){
       case "addArrayElementTo":
 
-        // this.selectedRow.isExpanded = true;
-
         this.toggleRecursiveTreeNodeExpansion(this.selectedRow, true);
 
         newChildElement.isArrayElement = true;
@@ -402,8 +399,6 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
 
       case "addFieldTo":
-
-        // this.selectedRow.isExpanded = true;
 
         this.toggleRecursiveTreeNodeExpansion(this.selectedRow, true);
 
@@ -733,26 +728,9 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
   //function that is used by the template when the form
   // is submitted
   onSubmit() {
-    // console.log(this.formInputs);
-    console.log(this.moddedTreeData);
-    // console.log(this.flattenedTreeDataOriginalCopy);
-    // console.log(this.tableDataSource);
-    // console.log(this.modifiedElements);
-    // console.log(this.cardForm);
-    console.log(this.resultCardService.constructObjectFromDataNodeArray(this.moddedTreeData));
 
     this.triggeredUpdate = true;
     this.store.dispatch(DbDetailActions.persist({persistType:"update", documentToUpdate: this.resultCardService.constructObjectFromDataNodeArray(this.moddedTreeData)}));
-
-    //prevent editing of the _id field  and the _rev field of the
-    // document
-
-    //make sure that the user cannot add _id or _rev to the
-    // already created document
-
-    //account for row deletion
-
-    // this.editMode =  false;
 
   }
 
@@ -847,13 +825,11 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.cardForm = new FormGroup(this.formGroupConfigObjOriginalCopy);
     this.editMode = false;
-    console.log(this.moddedTreeData)
   }
 
   //function used in the template to activate document deletion mode
   activateDocumentDeletion(){
     this.documentDeletionMode = true;
-    // console.log(this.documentDeletionMode);
   }
 
   //function used in the template to cancel document deletion mode

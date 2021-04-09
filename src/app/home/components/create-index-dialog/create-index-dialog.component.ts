@@ -115,9 +115,6 @@ export class CreateIndexDialogComponent implements OnInit, OnDestroy {
 
   onSubmit(){
 
-    // let indexFieldsArray = this.data.indexFields.split(",").map(indexField => {
-    //   return indexField.trim();
-    // });
     let newDatabaseIndex = new DBIndex();
     
     if(this.indexNameValue && this.indexNameValue !== ""){
@@ -125,16 +122,12 @@ export class CreateIndexDialogComponent implements OnInit, OnDestroy {
     };
 
     if(this.indexFieldsValue && this.indexFieldsValue !== ""){
-      // newDatabaseIndex.fields = indexFieldsArray;
       newDatabaseIndex.fields = JSON.parse(this.indexFieldsValue);
     };
     
     if(this.designDocumentNameValue && this.designDocumentNameValue !== ""){
       newDatabaseIndex.ddoc = this.designDocumentNameValue;
     };
-
-    
-    // newDatabaseIndex.type = "json";
 
     this.store.dispatch(DbDetailActions.persistIndex({persistIndexType: "create", indexToCreate: newDatabaseIndex}));
 

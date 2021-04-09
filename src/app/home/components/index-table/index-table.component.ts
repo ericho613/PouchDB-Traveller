@@ -60,7 +60,6 @@ export class IndexTableComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
 
       this.store.dispatch(DbDetailActions.clearPersistIndexDetails({persistIndexType:"delete"}));
 

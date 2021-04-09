@@ -1,5 +1,4 @@
 import * as crypto from "crypto";
-// import {ENCRYPTION_KEY} from './config'
 let algorithm = 'aes-256-cbc';
 let key;
 

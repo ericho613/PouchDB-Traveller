@@ -52,7 +52,6 @@
 #filter-section {
     padding: 0px 15px 0px 15px;
     font-size: 14px;
-    // border-bottom: groove;
     border-bottom: solid rgb(215,215,215) 1px;
 }
 
@@ -79,55 +78,22 @@
     overflow: auto;
 }
 
-// .results-section-height {
-//     height: 500px;
-// }
-
-// .results-section-height-banner {
-//     height: 465px;
-// }
-
-// .results-section-height-filter-options-banner {
-//     height: 412px;
-// }
-
-// .results-section-height-filter-options {
-//     height: 447px;
-// }
-
 #index-table-section {
-    // padding: 3px 15px 10px 15px;
-
 
     //should modify height based on presence of toolbar
     // height: 510px;
     overflow: auto;
 }
 
-// .index-table-section-height {
-//     height: 563px;
-// }
-
-// .index-table-section-height-banner {
-//     height: 530px;
-// }
-
 #pagination-section{
     background-color: rgb(250, 250, 250);
     border-bottom: groove;
     padding-right: 15px;
-    // height: 50px;
 }
 
 mat-paginator{
     background-color: rgb(250, 250, 250);
 }
-
-// .refresh-button{
-//     // height: 30px; 
-//     // width: 40px;
-//     margin: 5px 0;
-// }
 
 .hide-display{
     display: none;

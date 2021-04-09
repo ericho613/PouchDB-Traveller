@@ -72,16 +72,7 @@ import {
         connectionErrorMessage: action.connectionErrorMessage,
         databaseConnected: false
       })
-    ),
-
-    //necessary?
-    // on(
-    //   DbConnectionActions.clearError,
-    //   (state, action) => ({
-    //     ...state,
-    //     connectionErrorMessage: null
-    //   })
-    // ),
+    )
   
   );
   

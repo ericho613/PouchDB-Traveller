@@ -55,13 +55,6 @@ const _sidenavListReducer = createReducer(
 
   initialState,
 
-  // on(
-  //   SidenavListActions.fetchDefaultDbConnectionTitle,
-  //   (state) => ({
-  //     ...state
-  //   })
-  // ),
-
   on(
     SidenavListActions.addFavorite,
     (state, action) => ({
@@ -93,14 +86,6 @@ const _sidenavListReducer = createReducer(
     })
   ),
 
-  // on(
-  //   SidenavListActions.setFavorites,
-  //   (state, action) => ({
-  //     ...state,
-  //     favorites: [ ...action.favorites ]
-  //   })
-  // ),
-
   on(
     SidenavListActions.addRecent,
     (state, action) => ({
@@ -109,16 +94,6 @@ const _sidenavListReducer = createReducer(
       recentsErrorMessage: ""
     })
   ),
-
-  // on(
-  //   SidenavListActions.updateRecent,
-  //   (state, action) => ({
-  //     ...state,
-  //     recents: state.recents.map(
-  //       (recent) => recent.id === action.recent.id ? { ...action.recent } : recent
-  //     )
-  //   })
-  // ),
 
   on(
     SidenavListActions.deleteRecent,
@@ -170,10 +145,6 @@ const _sidenavListReducer = createReducer(
     SidenavListActions.setCryptoSettingsSuccessful,
     (state, action) => ({
       ...state,
-      // cryptoSpec: action.cryptoSpec,
-      // applyEncryption: action.applyEncryption,
-      // applyDecryption: action.applyDecryption,
-      // cryptoSecretKey: action.cryptoSecretKey,
       cryptographySettingsLoading: false,
       cryptographySettingsErrorMessage: ""
     })
@@ -327,11 +298,9 @@ const _sidenavListReducer = createReducer(
       transferSuccessful: false,
       transferErrorMessage: ""
     })
-  ),
-
+  )
 
 );
-
 
 export function sidenavListReducer(state: State, action: Action) {
   return _sidenavListReducer(state, action);

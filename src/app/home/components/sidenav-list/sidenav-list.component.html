@@ -1,13 +1,6 @@
 
 <mat-nav-list class="nav-list-mod" *ngIf="page === 'db-connection'">
 
-  <!-- <mat-list-item>
-
-      <mat-icon>build</mat-icon>
-      <span class="nav-caption">New Database</span>
-
-  </mat-list-item> -->
-
   <mat-list-item (click)="setDefaultDbConnectionSettings()">
 
       <mat-icon>open_in_browser</mat-icon>
@@ -29,10 +22,6 @@
         <mat-spinner></mat-spinner>
       </div>
       
-      <!-- <div *ngIf="favoritesErrorMessage !== ''" fxLayoutAlign="center center" class="error-message">
-        Could not fetch favorites...
-      </div> -->
-  
       <mat-nav-list dense *ngIf="!favoritesLoading">
         <mat-list-item *ngFor="let favorite of favorites; let i = index" (mouseenter)="hoveredFavoriteItem = i" (mouseleave)="hoveredFavoriteItem = ''">
 
@@ -78,10 +67,6 @@
         <mat-spinner></mat-spinner>
       </div>
       
-      <!-- <div *ngIf="recentsErrorMessage !== ''" fxLayoutAlign="center center" class="error-message">
-        Could not fetch recents...
-      </div> -->
-  
       <mat-nav-list dense *ngIf="!recentsLoading">
 
         <mat-list-item *ngFor="let recent of recents; let i = index" (mouseenter)="hoveredRecentItem = i" (mouseleave)="hoveredRecentItem = ''">
@@ -117,7 +102,6 @@
 </mat-nav-list>
 
 <mat-menu #favoritesMenu="matMenu">
-  <!-- <button mat-menu-item class="menu-item">Copy</button> -->
   <button mat-menu-item class="menu-item" (click)="removeFromFavorites()">Remove</button>
 </mat-menu>
 
@@ -198,7 +182,5 @@
     </form>
 
   </div>
-
-  
 
 </mat-nav-list>

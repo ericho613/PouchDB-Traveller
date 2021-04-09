@@ -19,7 +19,6 @@ export class DbConnectionEffects {
   createOrOpenDatabase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DbConnectionActions.createOrOpenDatabase),
-      // withLatestFrom(this.store.select("dbConnection")),
       switchMap((action) => {
 
         //communicate with electron and connect to database and
@@ -69,15 +68,6 @@ export class DbConnectionEffects {
       withLatestFrom(this.store.select("dbConnection")),
       tap(([action, dbConnectionState])=>{
 
-        //connect to database using createOrOpenDatabase
-        //if the connection is successful, perform the following:
-        //if the database connection type is 'favorite', update the
-        // last accessed date
-        //if the database connection type is not specified, 
-        // create a db connection object, update the
-        // last accessed date, set the type to 'recent', and add the
-        // recent db connection to the recents store
-
         if(dbConnectionState.databaseConnection && dbConnectionState.databaseConnection.type){
           if(dbConnectionState.databaseConnection.type === 'favorite'){
 
@@ -109,9 +99,7 @@ export class DbConnectionEffects {
 
         }
 
-        // this.store.dispatch(DbDetailActions.fetchDatabaseInfo());
         this.store.dispatch(DbDetailActions.fetchDatabaseResults({previousPageIndex: null, currentPageIndex: null, pageSize: null}));
-        // this.store.dispatch(DbDetailActions.fetchDatabaseIndexes());
 
         this.router.navigate(['/home/detail']);
       })

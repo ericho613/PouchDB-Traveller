@@ -90,20 +90,6 @@ export const clearPersistDetails = createAction(
   }>()
 );
 
-// export const addDatabaseIndex = createAction(
-//     '[Db-detail] Add Database Index',
-//     props<{
-//       databaseIndex: DBIndex;
-//     }>()
-// );
-
-// export const deleteDatabaseIndex = createAction(
-//     '[Db-detail] Delete Database Index',
-//     props<{
-//       name: string;
-//     }>()
-// );
-
 export const setDatabaseIndexes = createAction(
   '[Db-detail] Set Database Indexes',
   props<{

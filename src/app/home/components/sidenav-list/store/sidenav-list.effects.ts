@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-// import { Store } from '@ngrx/store';
-import { of, from, pipe } from 'rxjs';
+import { of, from } from 'rxjs';
 import { switchMap, map, withLatestFrom, tap, catchError, take } from 'rxjs/operators';
-// import { Router } from '@angular/router';
 import * as SidenavListActions from './sidenav-list.actions';
 import * as DbDetailActions from '../../db-detail/store/db-detail.actions';
-// import * as DbConnectionActions from '../../db-connection/store/db-connection.actions';
-import { DBConnection } from '../../../../shared/models';
 import * as fromApp from '../../../../store/app.reducer';
 import { Store } from '@ngrx/store';
 import { ElectronService } from '../../../../core/services/index';
@@ -23,7 +19,6 @@ export class SidenavEffects {
         .pipe(
           take(1),
           map(favorites => {
-            console.log(favorites);
             return favorites.map(favorite => {
               return {
                 ...favorite,
@@ -69,7 +64,6 @@ export class SidenavEffects {
         .pipe(
           take(1),
           map(recents => {
-            console.log(recents);
             return recents.map(recent => {
               return {
                 ...recent,
@@ -153,7 +147,6 @@ export class SidenavEffects {
         .pipe(
           take(1),
           map(result => {
-            console.log(result);
 
             let errorsArray = [];
             result.forEach(resultItem => {
@@ -186,7 +179,6 @@ export class SidenavEffects {
         .pipe(
           take(1),
           map(result => {
-            console.log(result);
 
             let errorsArray = [];
             result.forEach(resultItem => {
@@ -226,8 +218,7 @@ export class SidenavEffects {
 
   constructor(
     private actions$: Actions,
-    private electronService: ElectronService, 
-    // private router: Router,
+    private electronService: ElectronService,
     private store: Store<fromApp.AppState>
   ) {}
 }

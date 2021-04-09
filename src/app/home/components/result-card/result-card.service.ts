@@ -97,15 +97,6 @@ export class ResultCardService {
 
   }
 
-  // validateKeyName(control: FormControl): {[s: string]: boolean}{
-
-  //   if (this.forbiddenKeyNames.indexOf(control.value) !== -1) {
-  //     return {'keyNameIsForbidden': true};
-  //   }
-  //   return null;
-    
-  // }
-
   //function that is used by a FormControl object to validate
   // whether the input value is a valid boolean value
   validateBoolean(control: FormControl): {[s: string]: boolean}{

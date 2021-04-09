@@ -29,20 +29,10 @@
     <mat-card-content>
 
       <section>
-        <!-- <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" #formcreateOrOpenDbPath="ngForm" (ngSubmit)="onSubmit(formcreateOrOpenDbPath)"> -->
 
         <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" [formGroup]="dbConnectionForm" (ngSubmit)="onSubmit()">
 
           <div class="input-container" fxLayout="row">
-
-            <!-- <mat-form-field>
-              <mat-label>Database folder path</mat-label>
-              <input type="text" matInput placeholder="e.g. C:/database-folder-name" name="createOrOpenDbPath" [(ngModel)]="createOrOpenDbPathValue" required #createOrOpenDbPath="ngModel" [disabled]="!pathEditMode">
-              <button type="button" mat-button *ngIf="createOrOpenDbPathValue && pathEditMode" matSuffix mat-icon-button aria-label="Clear" (click)="createOrOpenDbPathValue=''">
-                <mat-icon>close</mat-icon>
-              </button>
-              <mat-error *ngIf="createOrOpenDbPath.hasError('required')">Please enter a folder path.</mat-error>
-            </mat-form-field> -->
 
             <mat-form-field>
               <mat-label>Database folder path</mat-label>
@@ -88,13 +78,4 @@
   </div>
 
 </div>
-
-
-
-
-<!-- <mat-radio-group aria-labelledby="db-connection-radio-group" fxLayout="column" fxLayoutAlign="center center" [(ngModel)]="databaseConnectionOption" fxLayoutGap="10px">
-  <mat-radio-button value="existingDb">Connect to an existing database.</mat-radio-button>
-  <mat-radio-button value="createDb">Create a new database.</mat-radio-button>
-</mat-radio-group> -->
-
 

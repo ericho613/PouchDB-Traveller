@@ -140,7 +140,6 @@
                   {{ element.isExpanded? 'expand_more' : 'chevron_right' }}
                 </mat-icon>
               </button>
-              <!-- <span class="node-key">{{element.key}}</span> -->
 
               <span>
 
@@ -216,17 +215,6 @@
                   </span>
 
                 </span>
-
-                <!-- <span *ngSwitchDefault class="node-value hide-overflow" fxFlex fxLayout="row">
-  
-                  &nbsp;:&nbsp;
-                  <span class="hide-overflow">
-
-                    <input class="custom-input" [ngClass]="checkInputHasError(element)? 'error-input' : 'node-value'" type="text" [name]="element.location" [formControlName]="element.location" [appFocusInput]="selectedFieldId" [elementLocation]="element.location" [appResizeInput]="element.value + ''" (input)="markElementAsModified(element, formInput.value)" #formInput> 
-
-                  </span>
-
-                </span> -->
   
               </ng-container>
   

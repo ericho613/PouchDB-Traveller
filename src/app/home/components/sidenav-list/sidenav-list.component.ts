@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 import * as DbConnectionActions from '../db-connection/store/db-connection.actions';
 import * as SidenavListActions from './store/sidenav-list.actions';
 import * as DbDetailActions from '../db-detail/store/db-detail.actions';
-import { ElectronService } from '../../../core/services/index';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -23,9 +22,7 @@ export class SidenavListComponent implements OnInit, OnDestroy {
   page: string;
   loadedDbConnection: DBConnection;
   databaseName: string;
-  // favorites$: Observable<DBConnection[]>;
   favorites: DBConnection[];
-  // recents$: Observable<DBConnection[]>;
   recents:DBConnection[];
   displayClearAll: boolean;
   clickedClearAllButton: boolean;
@@ -51,30 +48,13 @@ export class SidenavListComponent implements OnInit, OnDestroy {
   recentsErrorMessage: string;
   
   private dbConnectionStoreSub: Subscription;
-  // private recentSub: Subscription;
   private sidenavListSub: Subscription;
   private dbDetailSub: Subscription;
 
-  constructor(private electronService: ElectronService, private dialog: MatDialog, private store: Store<fromApp.AppState>) { }
+  constructor(private dialog: MatDialog, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
 
-
-    // this.electronService.fetchFavorites()
-    // .then(data => {
-    //   console.log(data);
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // });
-
-    // this.page = "db-connection";
-    // this.page = "db-detail";
-    // this.favorites$ = this.store.select(fromApp.getFavorites);
-    // this.recents$ = this.store.select(fromApp.getRecents);
-    // this.recentSub = this.store.select(fromApp.getRecents).subscribe((recents) => {
-    //   this.recents = recents;
-    // });
     this.sidenavListSub = this.store.select("sidenavList").subscribe((sidenavListState) => {
 
       this.favorites = sidenavListState.favorites
@@ -100,7 +80,6 @@ export class SidenavListComponent implements OnInit, OnDestroy {
           this.databaseName = databaseConnectionState.databaseConnection.connectionPath;
         }
       }
-      // this.databaseName = databaseConnectionState.databaseConnection? databaseConnectionState.databaseConnection.dbAliasName : databaseConnectionState.databaseConnection.connectionPath;
     })
 
     this.dbDetailSub = this.store.select("dbDetail").subscribe((databaseDetailState)=>{
@@ -116,11 +95,6 @@ export class SidenavListComponent implements OnInit, OnDestroy {
       applyDecryption:this.applyDecryption,
       cryptoSecretKey:this.cryptoSecretKeyValue
     }));
-
-    // console.log(this.cryptoSpec);
-    // console.log(this.applyEncryption);
-    // console.log(this.applyDecryption);
-    // console.log(this.cryptoSecretKeyValue);
   }
 
   closeDatabase(){
@@ -188,16 +162,13 @@ export class SidenavListComponent implements OnInit, OnDestroy {
 
   selectFavoriteOrRecentDbConnection(dbConnection: DBConnection){
     this.selectedFavoriteOrRecentDbConnection = dbConnection;
-    // console.log(this.selectedFavoriteOrRecentDbConnection);
   }
 
   setDefaultDbConnectionSettings(){
-    // this.store.dispatch(SidenavListActions.fetchDefaultDbConnectionTitle());
     this.store.dispatch(DbConnectionActions.setDatabaseConnection({databaseConnection: null}));
   }
 
   setDatabaseConnection(dbConnection : DBConnection){
-    // this.selectFavoriteOrRecentDbConnection(dbConnection);
     this.store.dispatch(DbConnectionActions.setDatabaseConnection({databaseConnection: dbConnection}));
   }
 
@@ -209,24 +180,14 @@ export class SidenavListComponent implements OnInit, OnDestroy {
         width: '700px',
         data: {
           databaseName: this.databaseName,
-          newDocument: "",
-          // searchFilter: this.searchFilter
+          newDocument: ""
         }
       }
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
 
       this.store.dispatch(DbDetailActions.clearPersistDetails({persistType:"create"}));
-      // if(result){
-      //   try {
-      //     let reconstructedJSObject = JSON.parse(result.newDocument);
-      //     console.log(reconstructedJSObject);
-      //   } catch (error) {
-      //     console.log("Error with parsing text area data to JSON.");
-      //   }
-      // }
       
     });
 
@@ -246,36 +207,8 @@ export class SidenavListComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       
       this.store.dispatch(SidenavListActions.clearTransferDetails());
-
-      // if(result){
-
-        // let fileReader = new FileReader();
-        
-        // fileReader.onload = function() {
-
-        // console.log(fileReader.result);
-
-        //   try {
-        //     let reconstructedJSObject = JSON.parse(<string>fileReader.result);
-        //     console.log(reconstructedJSObject);
-        //   } catch (error) {
-        //     console.log("Error with parsing file data to JSON.");
-        //   }
-
-          
-        // };
-      
-        // fileReader.onerror = function() {
-        //   console.log(fileReader.error);
-        // };
-
-        // fileReader.readAsText(result.fileLocation);
-
-        
-      // }
       
     });
 
@@ -290,19 +223,13 @@ export class SidenavListComponent implements OnInit, OnDestroy {
         data: {
           databaseName: this.databaseName,
           output: null
-          // file: null
         }
       }
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       
       this.store.dispatch(SidenavListActions.clearTransferDetails());
-
-      // if(result){
-
-      // }
       
     });
 

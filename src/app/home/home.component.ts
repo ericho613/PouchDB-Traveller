@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dbConnectionStoreSub = this.store.select("dbConnection").subscribe((dbConnectionState) => {
 
       this.loadingDb = dbConnectionState.loading;
-      // console.log( this.loadingDb);
     });
 
     this.dbDetailStoreSub = this.store.select("dbDetail").subscribe((dbDetailState) => {
@@ -42,10 +41,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.databaseInfoLoading = dbDetailState.databaseInfoLoading;
       this.databaseResultsLoading = dbDetailState.databaseResultsLoading;
       this.databaseIndexesLoading = dbDetailState.databaseIndexesLoading;
-
-      // console.log( this.databaseInfoLoading);
-      // console.log( this.databaseResultsLoading);
-      // console.log( this.databaseIndexesLoading);
 
     });
 

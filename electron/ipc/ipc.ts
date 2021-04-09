@@ -4,9 +4,7 @@ import { getDb, connectToDatabase, closeDatabase, applyEncryptionOnly, applyDecr
 import { formatBytes, transformIndexData } from '../data-management/util';
 import { createFetchOptions, fetchNextPage, clearPaginationDetails, getPreviousFetchOptions } from '../data-management/pagination';
 import * as path from 'path';
-// import * as util from 'util';
 import * as fs from 'fs';
-// const parse = require('csv-parse');
 import { importFile } from '../data-management/importFile';
 import { exportFile } from '../data-management/exportFile';
 import { ObjectID } from 'bson';
@@ -205,23 +203,15 @@ ipcMain.handle('fetch-database-info', event => {
 
 ipcMain.handle('fetch-database-results', (event, fetchOptionsObj) => {
 
-  // console.log(fetchOptionsObj);
-
   if(!fetchOptionsObj && getPreviousFetchOptions() === null){
     let fetchOptions = createFetchOptions();
-    // console.log(fetchOptions);
-    // console.log("here1");
     return fetchNextPage(fetchOptions);
     
   }else if(!fetchOptionsObj && getPreviousFetchOptions()){
     let fetchOptions = getPreviousFetchOptions();
-    // console.log(fetchOptions);
-    // console.log("here2");
     return fetchNextPage(fetchOptions);
   }else{
     let fetchOptions = createFetchOptions(fetchOptionsObj.previousPageIndex, fetchOptionsObj.currentPageIndex, fetchOptionsObj.pageSize);
-    // console.log(fetchOptions);
-    // console.log("here3");
     return fetchNextPage(fetchOptions);
   }
 
@@ -240,7 +230,6 @@ ipcMain.handle('fetch-database-indexes', event => {
   return getDb()
   .getIndexes()
   .then(function (indexesObject) {
-    // console.log(util.inspect(indexesObject, {showHidden: false, depth: null}));
     return transformIndexData(indexesObject.indexes);
   })
   .catch(error => {
@@ -523,14 +512,9 @@ ipcMain.handle('persist-index', (event, persistIndexType, persistItem) => {
         modifiedIndexFieldsValue.push(element);
       }
     });
-      
-    // modifiedIndexFieldsValue = persistItem.fields.split(",").map(indexField => {
-    //   return indexField.trim();
-    // });
 
     let modifiedPersistItem = persistItem;
     modifiedPersistItem.fields = modifiedIndexFieldsValue;
-    console.log(modifiedPersistItem);
     
     return getDb().createIndex({...modifiedPersistItem})
       .then((result)=>{

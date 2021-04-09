@@ -80,7 +80,6 @@ export class ImportDialogComponent implements OnInit, OnDestroy {
 
   openFileBrowse(){
     let filePath = this.electronService.openFileBrowse();
-    // console.log(filePath);
     if(filePath){
       if(filePath.length > 0){
         this.fileImportPathValue = filePath[0];
