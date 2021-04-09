@@ -13,3 +13,12 @@ export const setShowInstallAndRestartBanner = createAction(
       showInstallAndRestartBanner: boolean
     }>()
 );
+
+export const setProgressPercentage = createAction(
+  '[Header] Set Progress Percentage',
+  props<{
+    progressTotal: number,
+    progressTransferred: number,
+    progressPercent: number
+  }>()
+);

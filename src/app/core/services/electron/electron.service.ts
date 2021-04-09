@@ -54,12 +54,20 @@ export class ElectronService {
         this.store.dispatch(HeaderActions.setShowInstallAndRestartBanner({showInstallAndRestartBanner: true}));
       })
 
+      //listening for update found
+      this.ipcRenderer.on( 'download-progress', (e, progressTotal, progressTransferred, progressPercent) => {
+        this.store.dispatch(HeaderActions.setProgressPercentage({progressTotal: progressTotal, progressTransferred: progressTransferred, progressPercent: progressPercent}));
+      })
 
     }
   }
 
   openExternalLink(link){
     this.shell.openExternal(link);
+  }
+
+  checkForUpdates(){
+    return this.ipcRenderer?.invoke( 'check-for-updates' );
   }
 
   downloadUpdate(){

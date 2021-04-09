@@ -8,13 +8,19 @@ import {
   
   export interface State {
     showDownloadBanner: boolean,
-    showInstallAndRestartBanner: boolean
+    showInstallAndRestartBanner: boolean,
+    progressTotal: number,
+    progressTransferred: number,
+    progressPercent: number
   }
   
   
   const initialState: State = {
     showDownloadBanner: false,
-    showInstallAndRestartBanner: false
+    showInstallAndRestartBanner: false,
+    progressTotal: 0,
+    progressTransferred: 0,
+    progressPercent: 0
   };
   
   
@@ -37,6 +43,16 @@ import {
           showInstallAndRestartBanner: action.showInstallAndRestartBanner
         })
     ),
+
+    on(
+      HeaderActions.setProgressPercentage,
+      (state, action) => ({
+        ...state,
+        progressTotal: action.progressTotal,
+        progressTransferred: action.progressTransferred,
+        progressPercent: action.progressPercent
+      })
+  ),
 
   );
   

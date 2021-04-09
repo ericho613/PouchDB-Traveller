@@ -3,28 +3,43 @@
     New update available. Would you like to download the new update?
   </div>
 
-  <div fxFlex fxLayout fxLayoutAlign="flex-end">
+  <div fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="5px">
 
-    <button type="button" class="banner-button" mat-button color="primary" (click)="downloadUpdate()" aria-label="Yes" fxLayoutAlign="center center">Yes</button>
+    <button type="button" class="banner-button" mat-raised-button color="primary" (click)="downloadUpdate()" aria-label="Yes" fxLayoutAlign="center center">Yes</button>
 
-    <button type="button" class="banner-button" mat-button (click)="cancelDownloadUpdateBanner()" aria-label="No" fxLayoutAlign="center center">No</button>
+    <button type="button" class="banner-button no-button" mat-flat-button (click)="cancelDownloadUpdateBanner()" aria-label="No" fxLayoutAlign="center center">Later</button>
 
   </div>
 
 </mat-toolbar>
 
-<mat-toolbar class="banner" *ngIf="showDownloadBanner">
+<mat-toolbar class="banner" *ngIf="showInstallAndRestartBanner">
   <div id="banner-message">
     New update downloaded. Would you like to install the update and restart the application now?
   </div>
 
-  <div fxFlex fxLayout fxLayoutAlign="flex-end">
+  <div fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="5px">
 
-    <button type="button" class="banner-button" mat-button color="primary" (click)="installAndRestart()" aria-label="Yes" fxLayoutAlign="center center">Restart</button>
+    <button type="button" class="banner-button" mat-raised-button color="primary" (click)="installAndRestart()" aria-label="Yes" fxLayoutAlign="center center">Yes</button>
 
-    <button type="button" class="banner-button" mat-button (click)="cancelInstallAndRestartBanner()" aria-label="Later" fxLayoutAlign="center center">Later</button>
+    <button type="button" class="banner-button no-button" mat-flat-button (click)="cancelInstallAndRestartBanner()" aria-label="Later" fxLayoutAlign="center center">Later</button>
 
   </div>
+
+</mat-toolbar>
+
+<mat-toolbar class="banner" *ngIf="showDownloadProgressBanner">
+  <div id="banner-message">
+    Update downloading...
+  </div>
+
+  <div fxFlex fxLayoutAlign="flex-end center">
+    
+    <progress [value]="progressPercent" max="100" class="progress-bar"></progress>
+
+  </div>
+
+  <strong>{{progressTransferred}}&nbsp;/&nbsp;{{progressTotal}}&nbsp;(&nbsp;{{progressPercent}}%&nbsp;)</strong>
 
 </mat-toolbar>
 

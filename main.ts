@@ -11,8 +11,6 @@ const args = process.argv.slice(1),
 
 function createWindow(): BrowserWindow {
 
-  setTimeout(checkForUpdates, 1500);
-
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 

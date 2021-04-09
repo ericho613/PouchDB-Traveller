@@ -13,8 +13,14 @@ import { ObjectID } from 'bson';
 const recentsFilePath = path.join(__dirname, '..','data','recents.json');
 const favoritesFilePath = path.join(__dirname, '..','data','favorites.json');
 
+import { checkForUpdates } from '../updater/updater';
+
 const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
+
+ipcMain.handle('check-for-updates', event => {
+  checkForUpdates();
+})
 
 ipcMain.on('open-folder-browse', event => {
 

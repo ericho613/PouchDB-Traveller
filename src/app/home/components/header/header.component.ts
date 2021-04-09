@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -18,10 +18,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // page: string = 'db-connection';
   showDownloadBanner: boolean = false;
   showInstallAndRestartBanner: boolean = false;
+  showDownloadProgressBanner: boolean = false;
+  progressTotal: string;
+  progressTransferred: string;
+  progressPercent: string;
+
 
   private headerSub: Subscription;
 
-  constructor(private electronService: ElectronService, private store: Store<fromApp.AppState>) { }
+  constructor(private electronService: ElectronService, private store: Store<fromApp.AppState>, private changeRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -29,12 +34,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       this.showDownloadBanner = headerState.showDownloadBanner;
       this.showInstallAndRestartBanner = headerState.showInstallAndRestartBanner;
+      if(this.showInstallAndRestartBanner){
+        this.showDownloadProgressBanner = false;
+      };
+      this.progressTotal = headerState.progressTotal + "";
+      this.progressTransferred = headerState.progressTransferred + "";
+      this.progressPercent = Math.round(headerState.progressPercent) + "";
 
+      this.changeRef.detectChanges()
     });
+
+    // this.electronService.checkForUpdates();
+    
 
   }
 
   downloadUpdate(){
+    this.showDownloadProgressBanner = true;
     this.electronService.downloadUpdate();
     this.store.dispatch(HeaderActions.setShowDownloadBanner({showDownloadBanner: false}));
   }
