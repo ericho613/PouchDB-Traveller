@@ -179,7 +179,8 @@ export const importFile = (filePath, fileType, delimiter) => {
             if (chunk[i] == LINE_BREAK_ASCII_CODE) csvRowCount++;
         })
         .on('end', function() {
-          win.webContents.send('file-transfer-details', '0', '0', (csvRowCount-1) + '');
+          csvRowCount--;
+          win.webContents.send('file-transfer-details', '0', '0', csvRowCount + '');
 
           fs.createReadStream(filePath)
           .on('data', function(chunk) {

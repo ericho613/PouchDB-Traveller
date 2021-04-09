@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.progressTransferred = this.formatBytes(headerState.progressTransferred);
       this.progressPercent = Math.round(headerState.progressPercent) + "";
 
-      this.changeRef.detectChanges()
+      this.changeRef.detectChanges();
     });
 
   }
