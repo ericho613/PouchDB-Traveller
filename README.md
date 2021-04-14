@@ -138,10 +138,9 @@ PouchDB Traveller icon made by Freepik from www.flaticon.com
 
 # Getting Started With Running PouchDB Traveller
 
-To run the app for production with environment variables on a Linux OS,
-declare all environment variables (see '.env.example' for the full list of environment 
-variables) as in the example below (with 'NODE_ENV' set to 'production'), then run 
-"npm run start" or 'npm run electron:build' (to build the app for production).
+To build the app for production with environment variables on a Linux OS,
+declare all environment variables in the terminal as in the example below, 
+then run 'npm run electron:build'.
 
 ex)
 
@@ -154,10 +153,9 @@ npm run electron:build
 separate the commands by a space.
 ex) NODE_ENV=production GH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXX CSC_KEY_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXX npm run electron:build
 
-To run the app for production with environment variables using the command prompt
-on the Windows OS, declare all environment variables (see '.env.example' for the full 
-list of environment variables) as in the example below (with 'NODE_ENV' set to 'production'), 
-then run 'npm run start' or 'npm run electron:build' (to build the app for production).
+To build the app for production with environment variables using the command 
+prompt on the Windows OS, declare all environment variables in the terminal 
+as in the example below, then run 'npm run electron:build'.
 
 ex)
 
@@ -170,10 +168,9 @@ npm run electron:build
 line by using '&&' as a separator, but do not place a space before and after '&&'.
 ex) set NODE_ENV=production&&set GH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXX&&set CSC_KEY_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXX&&npm run electron:build
 
-To run the app for production with environment variables using PowerShell (VSCode default)
-on the Windows OS, declare all environment variables (see '.env.example' for the full 
-list of environment variables) as in the example below (with 'NODE_ENV' set to 'production'), 
-then run 'npm run start:prod' or 'npm run electron:build' (to build the app for production).
+To build the app for production with environment variables using PowerShell 
+(VSCode default) on the Windows OS, declare all environment variables in the 
+terminal as in the example below, then run 'npm run electron:build'.
 
 ex)
 
