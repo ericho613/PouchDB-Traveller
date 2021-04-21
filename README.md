@@ -134,6 +134,8 @@ Note: To make it work behind a proxy, you can add this proxy exception in your t
 
 ## PouchDB Traveller Notes
 
+PouchDB Traveller is a GUI client for PouchDB.
+
 PouchDB Traveller icon made by Freepik from www.flaticon.com
 
 # Getting Started With Running PouchDB Traveller

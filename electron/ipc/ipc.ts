@@ -8,8 +8,8 @@ import * as fs from 'fs';
 import { importFile } from '../data-management/importFile';
 import { exportFile } from '../data-management/exportFile';
 import { ObjectID } from 'bson';
-const recentsFilePath = path.join(__dirname, '..','data','recents.json');
-const favoritesFilePath = path.join(__dirname, '..','data','favorites.json');
+const recentsFilePath = path.join(app.getPath('userData'),'recents.json');
+const favoritesFilePath = path.join(app.getPath('userData'),'favorites.json');
 
 import { checkForUpdates } from '../updater/updater';
 
