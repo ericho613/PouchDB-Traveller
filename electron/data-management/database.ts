@@ -46,7 +46,7 @@ export const connectToDatabase = (storagePath) => {
             dbStoragePath = path.join(app.getPath('home'), storagePath);
         }
     }
-    db = new PouchDB(dbStoragePath);
+    db = new PouchDB(dbStoragePath, {auto_compaction: true});
     db.installSizeWrapper();
     return dbStoragePath;
 }
