@@ -81,7 +81,7 @@
           </button>
           <span class="node-key">{{node.key}}</span>
           <span class="node-type">&nbsp;:&nbsp;{{node.type | titlecase}}</span>
-          <div [class.tree-invisible]="!treeControl.isExpanded(node)">
+          <div *ngIf="treeControl.isExpanded(node)">
             <ng-container cdkTreeNodeOutlet></ng-container>
           </div>
         </cdk-nested-tree-node>
