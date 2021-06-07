@@ -5,6 +5,9 @@ import { formatBytes, transformIndexData } from '../data-management/util';
 import { createFetchOptions, fetchNextPage, clearPaginationDetails, getPreviousFetchOptions } from '../data-management/pagination';
 import * as path from 'path';
 import * as fs from 'fs';
+//need to import childForkBuildFileTree even if we don't use it in this file,
+// so that we can create the JS file from the TS file
+import * as childForkBuildFileTree from '../data-management/childForkBuildFileTree'
 import { importFile } from '../data-management/importFile';
 import { exportFile } from '../data-management/exportFile';
 import { ObjectID } from 'bson';

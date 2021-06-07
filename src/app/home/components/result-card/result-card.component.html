@@ -1,7 +1,7 @@
 <mat-card (mouseover)="showResultBtns=true" (mouseleave)="showResultBtns=false" [ngClass]="[documentDeletionMode?'document-deletion-mode':'']">
     <mat-card-content *ngIf="editMode === false">
       
-      <div *ngIf="showResultBtns && !documentDeletionMode" id="result-btns-section" fxLayout="row" fxLayoutAlign="flex-end">
+      <div *ngIf="showResultBtns && !documentDeletionMode && !fileTreeLoading" id="result-btns-section" fxLayout="row" fxLayoutAlign="flex-end">
 
         <button type="button" *ngIf="showResultBtns" class="result-btn" mat-icon-button aria-label="Edit" matTooltip="Edit" (click)="activateEditMode()" fxLayoutAlign="center center">
           <mat-icon class="result-btn-icon">edit</mat-icon>
@@ -19,7 +19,7 @@
 
       <div id="toggle-expansion-container">
 
-        <button *ngIf="showResultBtns && !documentDeletionMode" class="toggle-expansion-btn" type="button" mat-icon-button [matTooltip]="toggleExpansionBtnTooltip" (click)="toggleAllTreeNodesExpansion()">
+        <button *ngIf="showResultBtns && !documentDeletionMode && !fileTreeLoading" class="toggle-expansion-btn" type="button" mat-icon-button [matTooltip]="toggleExpansionBtnTooltip" (click)="toggleAllTreeNodesExpansion()">
           <mat-icon class="toggle-expansion-btn-icon">
             {{allTreeNodesExpanded ? 'expand_more' : 'chevron_right'}}
           </mat-icon>

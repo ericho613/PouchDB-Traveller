@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.electronService.checkForUpdates();
+    //check for updates
+    // this.electronService.checkForUpdates();
 
     this.dbConnectionStoreSub = this.store.select("dbConnection").subscribe((dbConnectionState) => {
 

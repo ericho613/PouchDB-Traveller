@@ -24,6 +24,7 @@ import * as fromApp from './store/app.reducer';
 import { SidenavEffects } from './home/components/sidenav-list/store/sidenav-list.effects';
 import { DbConnectionEffects } from './home/components/db-connection/store/db-connection.effects';
 import { DbDetailEffects } from './home/components/db-detail/store/db-detail.effects';
+import { ResultCardEffects } from './home/components/result-card/store/result-card.effects';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -48,7 +49,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       }
     }),
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([SidenavEffects, DbConnectionEffects, DbDetailEffects])
+    EffectsModule.forRoot([SidenavEffects, DbConnectionEffects, DbDetailEffects, ResultCardEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

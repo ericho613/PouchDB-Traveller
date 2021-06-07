@@ -247,50 +247,50 @@ export class ResultCardService {
     }, []);
   }
 
-  //function used to convert a JavaScript object to a
-  // DataNode object array that can be used by the
-  // tree control to display a tree to the user; the resulting
-  // DataNode object array is also used to create a
-  // configuration object for the FormGroup() constructor
-  buildFileTree(obj: {[key: string]: any}, level: number, prevLocation?: string, parentNodeType?: string): DataNode[] {
-    return Object.keys(obj).reduce<DataNode[]>((accumulator, key) => {
-      const value = obj[key];
-      const node = new DataNode();
-      node.key = key;
-      node.level = level + 1;
+  // //function used to convert a JavaScript object to a
+  // // DataNode object array that can be used by the
+  // // tree control to display a tree to the user; the resulting
+  // // DataNode object array is also used to create a
+  // // configuration object for the FormGroup() constructor
+  // buildFileTree(obj: {[key: string]: any}, level: number, prevLocation?: string, parentNodeType?: string): DataNode[] {
+  //   return Object.keys(obj).reduce<DataNode[]>((accumulator, key) => {
+  //     const value = obj[key];
+  //     const node = new DataNode();
+  //     node.key = key;
+  //     node.level = level + 1;
 
-      let moddedLocation = '[' + uuidv4() + ']';
-      node.location = prevLocation? prevLocation.concat("*"+ moddedLocation) : moddedLocation ;
-      if(parentNodeType === "array"){
-        node.isArrayElement = true;
-        node.parentElementLocation = prevLocation;
-      }
+  //     let moddedLocation = '[' + uuidv4() + ']';
+  //     node.location = prevLocation? prevLocation.concat("*"+ moddedLocation) : moddedLocation ;
+  //     if(parentNodeType === "array"){
+  //       node.isArrayElement = true;
+  //       node.parentElementLocation = prevLocation;
+  //     }
 
-      if(parentNodeType === "object"){
-        node.parentElementLocation = prevLocation;
-      }
+  //     if(parentNodeType === "object"){
+  //       node.parentElementLocation = prevLocation;
+  //     }
       
-      if (value != null) {
-        if (Array.isArray(value)) {
-          node.children = this.buildFileTree(value, level + 1, node.location, "array");
-          node.type = 'array';
-          node.isExpanded = false;
-        }else if (typeof value === 'object') {
-          node.children = this.buildFileTree(value, level + 1, node.location, "object");
-          node.type = 'object';
-          node.isExpanded = false;
-        } else {
-          node.value = value;
-          node.type = typeof value;
-        }
-      }else {
-        node.value = null;
-        node.type = null;
-      }
+  //     if (value != null) {
+  //       if (Array.isArray(value)) {
+  //         node.children = this.buildFileTree(value, level + 1, node.location, "array");
+  //         node.type = 'array';
+  //         node.isExpanded = false;
+  //       }else if (typeof value === 'object') {
+  //         node.children = this.buildFileTree(value, level + 1, node.location, "object");
+  //         node.type = 'object';
+  //         node.isExpanded = false;
+  //       } else {
+  //         node.value = value;
+  //         node.type = typeof value;
+  //       }
+  //     }else {
+  //       node.value = null;
+  //       node.type = null;
+  //     }
   
-      return accumulator.concat(node);
-    }, []);
-  }
+  //     return accumulator.concat(node);
+  //   }, []);
+  // }
 
   //function that recursively extracts child DataNode objects
   // from a parent DataNode object; the result is an array

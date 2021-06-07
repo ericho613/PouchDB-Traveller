@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
 import * as SidenavListActions from '../../../home/components/sidenav-list/store/sidenav-list.actions';
 import * as HeaderActions from '../../../home/components/header/store/header.actions';
+import * as ResultCardActions from '../../../home/components/result-card/store/result-card.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class ElectronService {
   // remote: typeof remote;
   childProcess: typeof childProcess;
   fs: typeof fs;
+  forkedChildProcess: any;
 
   get isElectron(): boolean {
     return !!(window && window.process && window.process.type);
@@ -38,6 +40,21 @@ export class ElectronService {
 
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
+
+      this.forkedChildProcess = this.childProcess.fork('./electron/data-management/childForkBuildFileTree.js');
+
+      //listening to messages coming from the forked child process
+      this.forkedChildProcess.on('message', (msg) => {
+
+        //setting the file tree in the result card store to the message
+        // returned from the forked child process
+        this.store.dispatch(ResultCardActions.setFileTree({fileTree: msg}));
+        
+      });
+      
+      this.forkedChildProcess.on('error', (error) => {
+        console.log(error);
+      });
 
       //listening on the 'mailbox' channel
       this.ipcRenderer.on( 'file-transfer-details', (e, transferCount, transferPercentage, documentsToBeTransferredCount) => {
@@ -60,6 +77,11 @@ export class ElectronService {
       })
 
     }
+  }
+
+  //using the child process to build a file tree from an object
+  forkedChildProcessBuildFileTree(obj: {[key: string]: any}, level: number){
+    this.forkedChildProcess.send(obj, level);
   }
 
   openExternalLink(link){

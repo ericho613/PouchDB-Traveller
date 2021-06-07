@@ -1,26 +1,29 @@
 import { 
     ActionReducerMap, 
-    createFeatureSelector, 
-    createSelector 
+    // createFeatureSelector, 
+    // createSelector 
 } from '@ngrx/store';
 
 import * as fromSidenavList from '../home/components/sidenav-list/store/sidenav-list.reducer';
 import * as fromDbConnection from '../home/components/db-connection/store/db-connection.reducer';
 import * as fromDbDetail from '../home/components/db-detail/store/db-detail.reducer';
 import * as fromHeader from '../home/components/header/store/header.reducer';
+import * as fromResultCard from '../home/components/result-card/store/result-card.reducer';
 
 export interface AppState {
   sidenavList: fromSidenavList.State;
   dbConnection: fromDbConnection.State;
   dbDetail: fromDbDetail.State;
   header: fromHeader.State;
+  resultCard: fromResultCard.State;
 }
 
 export const appReducer: ActionReducerMap<AppState> = {
   sidenavList: fromSidenavList.sidenavListReducer,
   dbConnection: fromDbConnection.databaseConnectionReducer,
   dbDetail: fromDbDetail.dbDetailReducer,
-  header: fromHeader.headerReducer
+  header: fromHeader.headerReducer,
+  resultCard: fromResultCard.resultCardReducer
 };
 
 // export const getSidenavListState = createFeatureSelector<fromSidenavList.State>('sidenavList');

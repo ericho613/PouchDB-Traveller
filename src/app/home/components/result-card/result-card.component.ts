@@ -20,6 +20,7 @@ import {ArrayDataSource} from '@angular/cdk/collections';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {ResultCardService} from './result-card.service';
 import * as DbDetailActions from '../db-detail/store/db-detail.actions';
+import * as ResultCardActions from './store/result-card.actions';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
 import { Subscription } from 'rxjs';
@@ -39,6 +40,7 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
   documentUpdatedId: string;
   documentUpdateErrorMessage: string;
   triggeredUpdate: boolean;
+  private resultCardSub: Subscription;
   private dbDetailSub: Subscription;
   showResultBtns: boolean;
   editMode: boolean = false;
@@ -61,35 +63,79 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
   modifiedElements: DataNode[] = [];
   selectedRow;
   persistLoading: boolean;
+  fileTreeLoading: boolean;
 
-  constructor(private store: Store<fromApp.AppState>, private resultCardService: ResultCardService) { 
+  constructor(private store: Store<fromApp.AppState>, 
+    private resultCardService: ResultCardService) { 
   }
 
   ngOnInit(): void {
 
     this.resultId =  this.result["_id"];
-
-    this.moddedTreeData = this.resultCardService.buildFileTree(this.result, 0);
     
+    this.store.dispatch(ResultCardActions.buildFileTree({obj: this.result, level: 0}));
+
+    this.fileTreeLoading = true;
+
     this.treeControl = new NestedTreeControl<DataNode> (node => node.children);
 
-    this.treeDataSource = new ArrayDataSource<DataNode>(this.moddedTreeData);
+    this.resultCardSub = this.store.select("resultCard").subscribe((resultCardState) => {
 
-    this.formGroupConfigObj = this.resultCardService.buildFormGroupConfigObj(this.moddedTreeData);
+      let fileTree = resultCardState.fileTree;
+      let indexOfMatchingIdNode = fileTree.findIndex((nodeObj) => {
+        return nodeObj["key"] === "_id" && nodeObj["value"] === this.resultId;
+      });
 
-    this.cardForm = new FormGroup(this.formGroupConfigObj);
+      if(indexOfMatchingIdNode > -1){
 
-    this.cardForm.valueChanges.subscribe(changedValues => {
-      this.triggeredUpdate = false;
-    })
+        this.fileTreeLoading = false;
 
-    this.dbDetailSub = this.store.select("dbDetail").subscribe((dbDetailState) => {
-      this.documentDeletedId = dbDetailState.documentDeletedId;
-      this.documentDeleteErrorMessage = dbDetailState.documentDeleteErrorMessage;
-      this.documentUpdatedId = dbDetailState.documentUpdatedId;
-      this.documentUpdateErrorMessage = dbDetailState.documentUpdateErrorMessage;
-      this.persistLoading = dbDetailState.persistLoading;
+        this.moddedTreeData = fileTree;
+    
+        this.treeDataSource = new ArrayDataSource<DataNode>(this.moddedTreeData);
+    
+        this.formGroupConfigObj = this.resultCardService.buildFormGroupConfigObj(this.moddedTreeData);
+
+        console.log(this.formGroupConfigObj);
+    
+        this.cardForm = new FormGroup(this.formGroupConfigObj);
+    
+        this.cardForm.valueChanges.subscribe(changedValues => {
+          this.triggeredUpdate = false;
+        })
+    
+        this.dbDetailSub = this.store.select("dbDetail").subscribe((dbDetailState) => {
+          this.documentDeletedId = dbDetailState.documentDeletedId;
+          this.documentDeleteErrorMessage = dbDetailState.documentDeleteErrorMessage;
+          this.documentUpdatedId = dbDetailState.documentUpdatedId;
+          this.documentUpdateErrorMessage = dbDetailState.documentUpdateErrorMessage;
+          this.persistLoading = dbDetailState.persistLoading;
+        });
+
+      }
+
     });
+
+
+    // this.treeControl = new NestedTreeControl<DataNode> (node => node.children);
+
+    // this.treeDataSource = new ArrayDataSource<DataNode>(this.moddedTreeData);
+
+    // this.formGroupConfigObj = this.resultCardService.buildFormGroupConfigObj(this.moddedTreeData);
+
+    // this.cardForm = new FormGroup(this.formGroupConfigObj);
+
+    // this.cardForm.valueChanges.subscribe(changedValues => {
+    //   this.triggeredUpdate = false;
+    // })
+
+    // this.dbDetailSub = this.store.select("dbDetail").subscribe((dbDetailState) => {
+    //   this.documentDeletedId = dbDetailState.documentDeletedId;
+    //   this.documentDeleteErrorMessage = dbDetailState.documentDeleteErrorMessage;
+    //   this.documentUpdatedId = dbDetailState.documentUpdatedId;
+    //   this.documentUpdateErrorMessage = dbDetailState.documentUpdateErrorMessage;
+    //   this.persistLoading = dbDetailState.persistLoading;
+    // });
 
   }
 
@@ -851,6 +897,9 @@ export class ResultCardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(){
     if(this.dbDetailSub){
       this.dbDetailSub.unsubscribe();
+    };
+    if(this.resultCardSub){
+      this.resultCardSub.unsubscribe();
     };
   }
 }
