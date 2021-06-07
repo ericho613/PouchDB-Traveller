@@ -25,7 +25,10 @@
     "icon": "dist/assets/icons",
     "certificateFile": "private/ericho613.pfx",
     "verifyUpdateCodeSignature": false,
-    "publisherName": "ericho613"
+    "publisherName": "ericho613",
+    "target": [
+      "msi"
+    ]
   },
   "mac": {
     "icon": "dist/assets/icons",

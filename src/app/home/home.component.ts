@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
-import { ElectronService } from '../core/services/electron/electron.service';
+// import { ElectronService } from '../core/services/electron/electron.service';
 
 @Component({
   selector: 'app-home',
@@ -23,13 +23,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   private sidenavListSub: Subscription;
   cryptographySettingsLoading: boolean;
   
-  constructor(private electronService: ElectronService, private store: Store<fromApp.AppState>, private router: Router) { 
+  constructor(
+    // private electronService: ElectronService, 
+    private store: Store<fromApp.AppState>, 
+    // private router: Router
+    ) { 
     
   }
 
   ngOnInit(): void {
 
-    this.electronService.checkForUpdates();
+    // this.electronService.checkForUpdates();
 
     this.dbConnectionStoreSub = this.store.select("dbConnection").subscribe((dbConnectionState) => {
 
