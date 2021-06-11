@@ -1,14 +1,13 @@
 import * as crypto from "crypto";
-let algorithm = 'aes-256-cbc';
-let key;
+let algorithm:crypto.CipherGCMTypes = 'aes-256-gcm';
+let secretKey;
 
-const setSecretKey = (secretKey) => {
-    if(secretKey !== "" && secretKey){
-        key = crypto.createHash('sha256').update(String(secretKey)).digest('base64').substr(0, 32);
+const setSecretKey = (key) => {
+    if(key !== "" && key){
+        secretKey = key;
     }else{
-        key = null;
+        secretKey = null;
     }
-    
 }
 
 const setCryptographyAlgorithm = (cryptoAlgorithm) => {
@@ -18,25 +17,53 @@ const setCryptographyAlgorithm = (cryptoAlgorithm) => {
 const encrypt = (string) => {
     // Create an initialization vector
     const iv = crypto.randomBytes(16);
-    // Create a new cipher using the algorithm, key, and iv
+    
+    // random salt
+    const salt = crypto.randomBytes(64);
+
+    // derive encryption key: 32 byte key length
+    // in assumption the masterkey is a cryptographic and NOT a password there is no need for
+    // a large number of iterations. It may can replaced by HKDF
+    // the value of 2145 is randomly chosen!
+    const key = crypto.pbkdf2Sync(secretKey, salt, 2145, 32, 'sha512');
+
+    // AES 256 GCM Mode
     const cipher = crypto.createCipheriv(algorithm, key, iv);
-    // Create the new (encrypted) buffer
-    const result = Buffer.concat([iv, cipher.update(Buffer.from(string)), cipher.final()]);
-    return result.toString('hex');
+
+    // encrypt the given text
+    const encrypted = Buffer.concat([cipher.update(string, 'utf8'), cipher.final()]);
+
+    // extract the auth tag
+    const tag = cipher.getAuthTag();
+
+    // generate output
+    return Buffer.concat([salt, iv, tag, encrypted]).toString('base64');
+
 };
 
 const decrypt = (encrypted) => {
-    encrypted = Buffer.from(encrypted, 'hex');
 
-   // Get the iv: the first 16 bytes
-   const iv = encrypted.slice(0, 16);
-   // Get the rest
-   encrypted = encrypted.slice(16);
-   // Create a decipher
-   const decipher = crypto.createDecipheriv(algorithm, key, iv);
-   // Actually decrypt it
-   const result = Buffer.concat([decipher.update(encrypted), decipher.final()]);
-   return result.toString();
+    // base64 decoding
+    const bData = Buffer.from(encrypted, 'base64');
+
+    // convert data to buffers
+    const salt = bData.slice(0, 64);
+    const iv = bData.slice(64, 80);
+    const tag = bData.slice(80, 96);
+    const text = bData.slice(96);
+
+    // derive key using; 32 byte key length
+    const key = crypto.pbkdf2Sync(secretKey, salt , 2145, 32, 'sha512');
+
+    // AES 256 GCM Mode
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+    decipher.setAuthTag(tag);
+
+    // encrypt the given text
+    const decrypted = decipher.update(text, 'binary', 'utf8') + decipher.final('utf8');
+
+    return decrypted;
+
 };
 
 export { encrypt, decrypt, setSecretKey, setCryptographyAlgorithm };

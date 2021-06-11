@@ -32,7 +32,7 @@ export interface State {
 const initialState: State = {
   favorites: [],
   recents: [],
-  cryptoSpec: "aes-256-cbc",
+  cryptoSpec: "aes-256-gcm-sha512",
   applyEncryption: false,
   applyDecryption: false,
   cryptoSecretKey: "",
@@ -132,7 +132,7 @@ const _sidenavListReducer = createReducer(
     SidenavListActions.removeCryptoSettings,
     (state, action) => ({
       ...state,
-      cryptoSpec: "aes-256-cbc",
+      cryptoSpec: "aes-256-gcm-sha512",
       applyEncryption: null,
       applyDecryption: null,
       cryptoSecretKey: null,

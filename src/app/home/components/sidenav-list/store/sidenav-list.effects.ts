@@ -104,8 +104,9 @@ export class SidenavEffects {
     this.actions$.pipe(
       ofType(SidenavListActions.setCryptoSettings),
       switchMap((action) => {
+        let cryptoSpecAlgorithm = action.cryptoSpec.split("-").slice(0,3).join("-");
         let cryptographySettingsObj = {
-          cryptoSpec: action.cryptoSpec,
+          cryptoSpec: cryptoSpecAlgorithm,
           applyEncryption: action.applyEncryption,
           applyDecryption: action.applyDecryption,
           cryptoSecretKey: action.cryptoSecretKey

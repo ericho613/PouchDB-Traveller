@@ -30,7 +30,7 @@ export class SidenavListComponent implements OnInit, OnDestroy {
   selectedFavoriteOrRecentDbConnection: DBConnection;
 
   cryptoSpecification: Array<any> = [
-    "aes-256-cbc" 
+    "aes-256-gcm-sha512" 
   ]
   cryptoSpec;
   applyEncryption: boolean = false;
