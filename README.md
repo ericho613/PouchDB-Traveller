@@ -1,8 +1,6 @@
-[![Angular Logo](https://www.vectorlogo.zone/logos/angular/angular-icon.svg)](https://angular.io/) [![Electron Logo](https://www.vectorlogo.zone/logos/electronjs/electronjs-icon.svg)](https://electronjs.org/)
-
 ## Introducing PouchDB Traveller
 
-PouchDB Traveller is a GUI client for PouchDB, an open-source NoSQL database.
+PouchDB Traveller is a GUI client for [PouchDB](https://pouchdb.com/), an open-source NoSQL database.
 
 PouchDB Traveller features convenient means to perform the following:
 - View documents
@@ -14,18 +12,18 @@ PouchDB Traveller features convenient means to perform the following:
 - Delete indexes
 - Etc…
 
-PouchDB Traveller was created with the 'pouchdb-node' package that uses LevelDB to store data files to disk.
+PouchDB Traveller was created with the [pouchdb-node](https://www.npmjs.com/package/pouchdb-node) package that uses [LevelDB](https://github.com/google/leveldb) to store data files to disk.
 
 Currently runs with:
 
 - Angular v11.2.0
 - Electron v11.2.3
 - Electron Builder v22.9.1
-- PouchDb v7.2.2
+- PouchDB v7.2.2
 
 PouchDB Traveller icon made by Freepik from www.flaticon.com
 
-The 'angular-electron' bootstrap template by maximegris (https://github.com/maximegris/angular-electron) was used as the starting code for this project.
+The [angular-electron](https://github.com/maximegris/angular-electron) bootstrap template by maximegris  was used as the starting code for this project.
 
 ## Getting Started
 
