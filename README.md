@@ -1,4 +1,4 @@
-[![Angular Logo](https://www.vectorlogo.zone/logos/angular/angular-icon.svg)](https://angular.io/) [![Electron Logo](https://www.vectorlogo.zone/logos/electronjs/electronjs-icon.svg)](https://electronjs.org/) [![PouchDB Logo](https://dbdb.io/media/logos/pouchdb.png)](https://pouchdb.com/)
+[![Angular Logo](https://www.vectorlogo.zone/logos/angular/angular-icon.svg)](https://angular.io/) [![Electron Logo](https://www.vectorlogo.zone/logos/electronjs/electronjs-icon.svg)](https://electronjs.org/)
 
 ## Introducing PouchDB Traveller
 
@@ -14,7 +14,7 @@ PouchDB Traveller features convenient means to perform the following:
 - Delete indexes
 - Etc…
 
-PouchDB Traveller was created with the 'pouchdb-node' package which uses LevelDB to store data files to disk.
+PouchDB Traveller was created with the 'pouchdb-node' package that uses LevelDB to store data files to disk.
 
 Currently runs with:
 
@@ -25,7 +25,7 @@ Currently runs with:
 
 PouchDB Traveller icon made by Freepik from www.flaticon.com
 
-The 'angular-electron' bootstrap template (https://github.com/maximegris/angular-electron) by maximegris was used as the starting code for this project.
+The 'angular-electron' bootstrap template by maximegris (https://github.com/maximegris/angular-electron) was used as the starting code for this project.
 
 ## Getting Started
 
@@ -96,7 +96,7 @@ E2E Test scripts can be found in `e2e` folder.
 Note: To make it work behind a proxy, you can add this proxy exception in your terminal  
 `export {no_proxy,NO_PROXY}="127.0.0.1,localhost"`
 
-# Building PouchDB Traveller for Production
+## Building PouchDB Traveller for Production
 
 To build the app for production with environment variables on a Linux OS,
 declare all environment variables in the terminal as in the example below, 
